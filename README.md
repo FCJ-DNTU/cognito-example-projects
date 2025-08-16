@@ -24,30 +24,29 @@ Tuy là các ngôn ngữ khác nhau, môi trường phát triển khác nhau, nh
 
 ```
 .
-└── src/
-    ├── core/
-    │   ├── context/
-    │   ├── error/
-    │   │   ├── AppError
-    │   │   └── ClientError
-    │   ├── modules/
-    │   │   ├── base_validator/
-    │   │   ├── authoizer/
-    │   │   └── pcustomer-management/
-    │   └── adapters/
-    ├── runtimes/
-    │   ├── springboot/
-    │   ├── fastapi/
-    │   ├── express/
-    │   └── lambda_functions/
-    │       ├── authorizer/
-    │       └── pcustomer-management/
-    ├── utils/
-    │   ├── configs/
-    │   ├── constants/
-    │   ├── helpers/
-    │   └── logger.*
-    └── test/
+├── src/
+│   ├── core/
+│   │   ├── context/
+│   │   ├── error/
+│   │   │   ├── AppError
+│   │   │   └── ClientError
+│   │   ├── modules/
+│   │   │   ├── base_validator/
+│   │   │   ├── authoizer/
+│   │   │   └── pcustomer-management/
+│   │   └── adapters/
+│   ├── runtimes/
+│   │   ├── springboot/
+│   │   ├── fastapi/
+│   │   ├── express/
+│   │   └── lambda_functions/
+│   │       ├── authorizer/
+│   │       └── pcustomer-management/
+│   └── utils/
+│       ├── configs/
+│       ├── constants/
+│       └── logger.*
+└── test/
 ```
 
 Giải thích:
@@ -59,6 +58,9 @@ Giải thích:
 - `runtimes`: để có thể triển khai được `core` (chạy được phần `core`), thì mình sẽ cần phải định nghĩa được environment và runtime đặc thù cho từng ngôn ngữ khác nhau, trong này thì mình ví dụ một số env & runtime như là **springboot**, **fastapi** và **express**.
 - `utils`: các đoạn mã có tính tái sử dụng cao, chuyên dùng để nhúng vào mọi nơi trong mã nguồn thì sẽ nằm ở đây. Tưởng tượng như trong project mình sẽ cần phải xử lý chuỗi cơ bản, nhưng phải tốn rất nhiều dòng code, nhưng giờ mình muốn áp dụng xử lý chuỗi đó ở nhiều nơi khác nhau => đó chính là mục đích sử dụng của `utils`.
 - `test`: nếu như muốn test một hàm, một module hoặc tích hợp nhiều hàm và nhiều modules, thì chúng ta sẽ viết các kịch bản, cases ở trong này. Đơn giản chỉ có thể thôi !!
+- Ngoài ra thì mỗi mã nguồn dự án sẽ có nhiều file cấu hình riêng biệt.
+
+> Note: với các file mà được đặt tên theo PascalCase thì có nghĩa file đó chứa lớp đối tượng. Với Typescript và Python thì mình sẽ kết hợp OOP và Functional nhưng với Java thì buộc mình phải viết thuần OOP.
 
 Mỗi một thành phần sẽ có các cách tiếp cận, tư duy xây dựng mã khác nhau, nhưng sau cùng thì chúng ta sẽ hướng về một mục tiêu duy nhất: triển khai thành công Authentication & Authorization trên ứng dụng mẫu với Cognito.
 

@@ -1,0 +1,16 @@
+{
+  "name": "example-application-typescript",
+  "version": "1.0.0",
+  "description": "Đây là mã nguồn của ứng dụng mẫu được viết bằng Typescript, để có thể chạy được thì các bạn cần phải build được project thành các file built.",
+  "main": "index.js",
+  "scripts": {
+    "build:express": "node scripts/build-express.mjs"
+  },
+  "keywords": [],
+  "author": "Nguyen Anh Tuan",
+  "license": "MIT",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "esbuild": "^0.25.9"
+  }
+}
