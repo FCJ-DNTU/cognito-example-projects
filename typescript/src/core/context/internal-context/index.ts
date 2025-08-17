@@ -5,7 +5,7 @@ import type { TInternalContext } from "./type";
  *
  * @returns
  */
-export function initializeInternalContext(): Partial<TInternalContext> {
+export function initializeInternalContext(): TInternalContext {
   return {
     params: undefined,
     runtimeCtx: undefined,

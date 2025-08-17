@@ -13,6 +13,11 @@ export type TInternalContext<
   params: TParams;
 
   /**
+   * Kết quả của lần thực thi trước nếu đang ở trong pipeline.
+   */
+  prevResult?: any;
+
+  /**
    * Context từ runtime.
    */
   runtimeCtx?: Partial<TRuntimeContext>;

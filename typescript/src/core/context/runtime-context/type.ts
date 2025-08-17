@@ -1,3 +1,7 @@
+import type { Readable } from "stream";
+import type { AppError } from "../../error/AppError";
+import type { ClientError } from "../../error/ClientError";
+
 /**
  * Trong mỗi runtime khác nhau sẽ có các input khác nhau, vì thế mà
  * mình sẽ cần phải tạo ra một tiêu chuẩn để cho core có thể dùng được
@@ -16,6 +20,18 @@
 export type TRuntimeContext = {
   /** Name of runtime */
   runtime: string;
+
+  /**
+   * Kết quả của lần thực thi trước nếu đang ở trong pipeline.
+   */
+  prevResult?: any;
+
+  /**
+   * Gán giá trị http status code.
+   *
+   * @param status - Mã http status code hợp lệ.
+   */
+  setHTTPStatus(status: number): void;
 
   /**
    * Lấy body trong HTTP Request (Payload), nếu request có body.
@@ -49,8 +65,9 @@ export type TRuntimeContext = {
    * Gửi lại Client bên ngoài runtime (requester) một Streaming Response.
    *
    * @param stream - dữ liệu truyền về là một dạng stream.
+   * @param contentType - kiểu content trả về, phải phù hợp với stream.
    */
-  sendStreaming(stream: unknown): void;
+  sendStreaming(source: Readable | Buffer, contentType?: string): void;
 
   /**
    * Gửi lại Client bên ngoài runtime (requester) một JSON Response.
@@ -72,5 +89,10 @@ export type TRuntimeContext = {
    *
    * @param error - lỗi phản hồi, có thể là `ClientErrror` hoặc `AppError`.
    */
-  sendError(error: unknown): void;
+  sendError(error: AppError | ClientError): void;
+
+  /**
+   * Hàm next trong một số runtime.
+   */
+  next?(): void;
 };

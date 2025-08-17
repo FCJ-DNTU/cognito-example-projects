@@ -8,6 +8,7 @@ import type { TRuntimeContext } from "./type";
 export function initializeRuntimeContext(): Partial<TRuntimeContext> {
   return {
     runtime: "",
+    setHTTPStatus: undefined,
     getBody: undefined,
     getHeaders: undefined,
     getParams: undefined,
@@ -16,6 +17,7 @@ export function initializeRuntimeContext(): Partial<TRuntimeContext> {
     sendError: undefined,
     sendJson: undefined,
     sendStreaming: undefined,
+    next: undefined,
   };
 }
 

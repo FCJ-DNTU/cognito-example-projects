@@ -27,13 +27,31 @@ console.log("Root Path:", ROOT_PATH);
 console.log("Source Path:", SRC_PATH);
 console.log("Entry Point Path:", ENTRY_POINT_PATH);
 
+function copyRoutes() {
+  return {
+    name: "copy-routes",
+    setup(build) {
+      build.onEnd(() => {
+        fs.cpSync(
+          path.resolve(SRC_PATH, "runtimes", "express", "routes"),
+          path.resolve(BUILD_PATH, "routes"),
+          { recursive: true },
+        );
+      });
+    },
+  };
+}
+
 const buildOptions = {
   entryPoints: [ENTRY_POINT_PATH],
   outdir: BUILD_PATH,
-  bundle: true,
+  bundle: false,
   minify: true,
   platform: "node",
   format: "cjs",
+  externals: ["swagger-jsdoc", "swagger-ui-express"],
 };
 
 console.log("Build options:", buildOptions);
+
+await esbuild.build(buildOptions);
