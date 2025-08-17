@@ -1,20 +1,23 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./swagger.js";
 
 // Import constants
 import { APP_CONSTANTS } from "../../utils/constants/app.js";
 
-// Import routers
-import PotentialCustomersRouter from "./routes/pcustomer-management";
+// Import Swagger
+import { spec } from "./swagger";
+import { registerRoutes } from "./swagger/helpers.js";
+
+// Import routes
+import { pcustomersRoutes } from "./routes/pcustomer-management";
 
 const app = express();
 
-// Route swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Register routes
+registerRoutes(app, pcustomersRoutes, spec);
 
-// Route API
-app.use(PotentialCustomersRouter);
+// Route swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(spec));
 
 app.use("/", (req, res) => {
   return res.json({

@@ -3,7 +3,7 @@ import path from "path";
 import swaggerJSDoc from "swagger-jsdoc";
 
 // Import constants
-import { APP_CONSTANTS } from "../../utils/constants";
+import { APP_CONSTANTS } from "../../../utils/constants";
 
 const options = {
   definition: {
@@ -23,6 +23,7 @@ const options = {
   apis: [path.join(__dirname, "./routes/*.js")], // nơi chứa comment swagger
 };
 
+/** Main Swagger Doc */
 const swaggerSpec = swaggerJSDoc(options);
 
-export default swaggerSpec;
+export { swaggerSpec as spec };
