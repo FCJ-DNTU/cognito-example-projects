@@ -1,0 +1,18 @@
+import type { TInternalContext } from "./type";
+
+/**
+ * Khởi tạo Internal Context cho hàm hoặc các module trong core.
+ *
+ * @returns
+ */
+export function initializeInternalContext(): Partial<TInternalContext> {
+  return {
+    params: undefined,
+    runtimeCtx: undefined,
+    options: {
+      canCatchError: true,
+    },
+  };
+}
+
+export * from "./type";

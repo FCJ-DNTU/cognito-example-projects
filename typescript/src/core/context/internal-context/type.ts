@@ -3,9 +3,9 @@ import type { TRuntimeContext } from "../runtime-context";
 /**
  * Ở trong core thì cũng có context của riêng nó, gọi là Internal Context.
  */
-export type InternalContext<
+export type TInternalContext<
   TParams = unknown,
-  TExtOptions extends object = any,
+  TExtOptions extends Record<string, any> = {},
 > = {
   /**
    * Tham số chính của hàm/module.
@@ -20,12 +20,12 @@ export type InternalContext<
   /**
    * Một số các tham số thêm cho hàm/module để xử lý.
    */
-  options?: TExtOptions & {
+  options?: {
     /**
      * Cho biết là context ở ngoài hàm/module này có thể bắt được lỗi hay không?
      * Nếu không thì mình phải xử lý dữ liệu rồi trả về undefined hoặc null
      * hoặc [] hoặc bất cứ giá trị nào. Mặc định là `true`.
      */
     canCatchError: boolean;
-  };
+  } & TExtOptions;
 };
