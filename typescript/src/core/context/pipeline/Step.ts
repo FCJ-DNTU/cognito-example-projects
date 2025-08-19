@@ -2,7 +2,7 @@ import type { UContextType } from "../type";
 
 export type TStepExecutor<TContext, TResult> = (
   ctx: TContext,
-) => Promise<TResult>;
+) => Promise<TResult> | TResult;
 
 /**
  * Lớp định nghĩa bước xử lý trong một pipeline
@@ -10,16 +10,9 @@ export type TStepExecutor<TContext, TResult> = (
  * @template TResult
  */
 export class Step<TContext = unknown, TResult = unknown> {
-  public ctxType: UContextType;
-
   private _executor?: TStepExecutor<TContext, TResult>;
 
-  constructor(
-    ctxType: UContextType = "runtime",
-    executor?: TStepExecutor<TContext, TResult>,
-  ) {
-    this.ctxType = ctxType;
-
+  constructor(executor?: TStepExecutor<TContext, TResult>) {
     if (executor) this._executor = executor;
   }
 

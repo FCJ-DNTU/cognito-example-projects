@@ -39,12 +39,11 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
    * @param executor - executor của step.
    * @param ctxType - kiểu context mà step chạy.
    */
-  addStep<TResult = unknown>(
-    executor: TStepExecutor<TContext, TResult>,
-    ctxType?: UContextType,
-  ) {
-    const newStep = new Step<TContext, TResult>(ctxType, executor);
+  addStep<TResult = unknown>(executor: TStepExecutor<TContext, TResult>) {
+    const newStep = new Step<TContext, TResult>(executor);
     this._steps.push(newStep);
+
+    return this;
   }
 
   /**

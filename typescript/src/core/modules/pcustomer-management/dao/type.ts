@@ -10,17 +10,17 @@ export type TPCustomer = {
   fullName: string;
   phone: string;
   age: number;
+  type: string;
   productCode: string;
   createAt: string;
 };
 
 export type TFindPCustomerQuery = {
-  pk: TPartitionQuery;
-  sk: TSortQuery;
+  id: string;
 };
 
 export type TFindPCustomerParams = {
-  query: TFindPCustomerQuery;
+  query?: TFindPCustomerQuery;
   indexName?: string;
   limit?: string;
   staryKey?: string;
@@ -53,6 +53,17 @@ export interface IPCustomerDAO {
   ): Promise<TFindPCustomerResult | undefined>;
 
   /**
+   * Tìm thông tin của một khách hàng trong hệ thống.
+   *
+   * @param ctx - internal context.
+   *
+   * @returns
+   */
+  getPCustomer(
+    ctx: TInternalContext<Partial<TFindPCustomerParams>>,
+  ): Promise<TPCustomer | undefined>;
+
+  /**
    * Thêm thông tin của một khách hàng tiềm năng vào trong danh sách.
    *
    * @param ctx - internal context.
@@ -60,7 +71,7 @@ export interface IPCustomerDAO {
    * @returns
    */
   insertPCustomer(
-    ctx: TInternalContext<TPCustomer>,
+    ctx: TInternalContext<Partial<TPCustomer>>,
   ): Promise<TPCustomer | undefined>;
 
   /**

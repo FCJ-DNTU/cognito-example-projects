@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-dynamodb";
 
 // Import errors
-import { AppError } from "../../../error";
+import { AppError, ClientError } from "../../../error";
 
 // Import configs from utils
 import { Configs } from "../../../../utils/configs";
@@ -67,26 +67,6 @@ export class PCustomerDAO implements IPCustomerDAO {
   }
 
   /**
-   * Kiểm tra các thuộc tính trong query.
-   *
-   * @param query - query.
-   */
-  private _checkQuery(query: any) {
-    checkPropInObjOrThrowError(
-      query,
-      "query",
-      "name",
-      "Name is required in query",
-    );
-    checkPropInObjOrThrowError(
-      query,
-      "query",
-      "value",
-      "Value is required in query",
-    );
-  }
-
-  /**
    * Kiểm tra params của các method có query.
    *
    * @param ctx - internal context.
@@ -105,13 +85,6 @@ export class PCustomerDAO implements IPCustomerDAO {
     const { query } = params as any;
 
     checkExistanceOrThrowError(query, "query", "Query must be in params");
-    checkPropInObjOrThrowError(
-      query,
-      "query",
-      "pk",
-      "Partition query is required",
-    );
-    this._checkQuery(query);
   }
 
   /**
@@ -150,12 +123,18 @@ export class PCustomerDAO implements IPCustomerDAO {
    *
    * @returns
    */
-  private _createBasePutItemCommandInput(ctx: TInternalContext<TPCustomer>) {
-    ctx.params.createAt = new Date().toISOString();
+  private _createBasePutItemCommandInput(
+    ctx: TInternalContext<Partial<TPCustomer>>,
+  ) {
+    const currDate = new Date();
+
+    ctx.params.id = currDate.getTime().toString();
+    ctx.params.createAt = currDate.toISOString();
 
     const input: PutItemCommandInput = {
       TableName: Configs.DynamoDBTableNamePCustomers,
       Item: toDynamoDBItem(ctx.params!),
+      ReturnValues: "ALL_NEW",
     };
 
     return input;
@@ -198,13 +177,13 @@ export class PCustomerDAO implements IPCustomerDAO {
    * @returns
    */
   private _createBaseDeleteItemCommandInput(ctx: TInternalContext) {
-    const { pk, sk } = (ctx.params as any).query;
+    const { query } = ctx.params as any;
 
     const input: DeleteItemCommandInput = {
       TableName: Configs.DynamoDBTableNamePCustomers,
       Key: toDynamoDBItem({
-        [pk.name]: pk.value,
-        [sk.name]: sk.value,
+        type: "potential_customer",
+        id: query.id,
       }),
     };
 
@@ -260,8 +239,41 @@ export class PCustomerDAO implements IPCustomerDAO {
     }
   }
 
+  async getPCustomer(
+    ctx: TInternalContext<Partial<TFindPCustomerParams>>,
+  ): Promise<TPCustomer | undefined> {
+    try {
+      this._checkQueryMethodParams(ctx);
+
+      const input = this._createBaseQueryCommandInput(ctx);
+
+      input["KeyConditionExpression"] = "pk = :pk AND sk = :sk";
+      input["ExpressionAttributeValues"] = {
+        ":pk": { S: "potential_customer" },
+        ":sk": { S: ctx.params.query?.id! },
+      };
+
+      const command = new QueryCommand(input);
+      const response = await this._client.send(command);
+
+      const items = response.Items;
+
+      if (!items) throw new ClientError("Customer not found");
+
+      return fromDynamoDBItem(items[0]) as TPCustomer;
+    } catch (error: any) {
+      console.error("Error - ListPCustomers:", error.message);
+
+      if (ctx.options && ctx.options.canCatchError) {
+        throw new AppError(error.message);
+      }
+
+      return undefined;
+    }
+  }
+
   async insertPCustomer(
-    ctx: TInternalContext<TPCustomer>,
+    ctx: TInternalContext<Partial<TPCustomer>>,
   ): Promise<TPCustomer | undefined> {
     try {
       this._checkMethodParams(ctx);
@@ -272,7 +284,9 @@ export class PCustomerDAO implements IPCustomerDAO {
 
       console.log("Response - InsertPCustomer:", response);
 
-      return ctx.params;
+      return response.Attributes
+        ? (fromDynamoDBItem(response.Attributes) as TPCustomer)
+        : undefined;
     } catch (error: any) {
       console.error("Error - InsertPCustomer:", error.message);
 

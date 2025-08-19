@@ -1,5 +1,10 @@
+import { PCustomerDAO } from "../dao";
+import { initializeInternalContext } from "../../../context/internal-context";
+
 // Import types
 import type { TRuntimeContext } from "../../../context/runtime-context";
+import type { TInternalContext } from "../../../context/internal-context";
+import type { TFindPCustomerParams } from "../dao/type";
 
 /**
  * Lấy danh sách các khác hàng ở trong cơ sở dữ liệu.
@@ -9,5 +14,19 @@ import type { TRuntimeContext } from "../../../context/runtime-context";
  * @returns
  */
 export async function getCustomers(ctx: TRuntimeContext) {
-  return ctx.sendJson([], { size: 0 });
+  const params = await ctx.getParams<{ id: string }>();
+  const query = await ctx.getParams<{ limit: string; startKey: string }>();
+
+  const pcustomerDao = new PCustomerDAO();
+  const internalCtx =
+    initializeInternalContext() as TInternalContext<TFindPCustomerParams>;
+
+  internalCtx.params = {
+    limit: query.limit,
+    staryKey: query.startKey,
+  };
+
+  const result = await pcustomerDao.listPCustomers(internalCtx);
+
+  return result;
 }
