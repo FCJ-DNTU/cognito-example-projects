@@ -1,9 +1,15 @@
 // Import ports from modules
-import { getCustomerPipeline } from "../../../../core/modules/pcustomer-management/ports";
-import { createContext } from "../../adapters/context";
+import {
+  getCustomerPipeline,
+  getCustomersPipeline,
+  addCustomerPipeline,
+  updateCustomerPipeline,
+  deleteCustomerPipeline,
+} from "../../../../core/modules/pcustomer-management/ports";
 
 // Import from runtime
 import { jsonResponse } from "../../swagger/helpers";
+import { createContext } from "../../adapters/context";
 
 // Import types
 import type { TRouteDefinition } from "../../swagger/type";
@@ -12,10 +18,34 @@ export const pcustomersTag = "Potential Customer";
 export const pcustomersRoutes: TRouteDefinition[] = [
   {
     method: "get",
-    path: "/pcustomers/:id",
-    handler: (req, res, next) => {
+    path: "/pcustomers",
+    handler: async (req, res, next) => {
       const ctx = createContext(req, res, next);
-      return getCustomerPipeline.run(ctx);
+      return await getCustomersPipeline.run(ctx);
+    },
+    summary: "Get potential customers from database",
+    description: "Get potential customers from database",
+    tags: [pcustomersTag],
+    responses: {
+      ...jsonResponse(
+        "200",
+        {
+          type: "object",
+          properties: {
+            items: { type: "array", items: { type: "string" } },
+            meta: { type: "object" },
+          },
+        },
+        "List of Potential Customer",
+      ),
+    },
+  },
+  {
+    method: "get",
+    path: "/pcustomers/:id",
+    handler: async (req, res, next) => {
+      const ctx = createContext(req, res, next);
+      return await getCustomerPipeline.run(ctx);
     },
     summary: "Get a potential customer from database",
     description: "Get a potential customer from database by id",
@@ -38,7 +68,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
             id: { type: "string" },
           },
         },
-        "Khách hàng tiềm năng",
+        "A Potential Customer",
       ),
     },
   },

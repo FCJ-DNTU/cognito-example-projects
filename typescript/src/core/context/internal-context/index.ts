@@ -10,7 +10,7 @@ export function initializeInternalContext(): TInternalContext {
     params: undefined,
     runtimeCtx: undefined,
     options: {
-      canCatchError: true,
+      canCatchError: false,
     },
   };
 }

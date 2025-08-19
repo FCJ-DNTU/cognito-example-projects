@@ -54,7 +54,7 @@ export function createContext(
   };
 
   ctx["sendError"] = function (error) {
-    return res.json({ error: error.toPlain() });
+    return res.status(error.statusCode).json({ error: error.toPlain() });
   };
 
   ctx["sendStreaming"] = function (

@@ -49,11 +49,18 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
   /**
    * Chạy pipeline theo context được truyền vào.
    */
-  run(ctx: TContext) {
+  async run(ctx: TContext) {
     let currentResult: any;
 
     for (const step of this._steps) {
-      currentResult = step.execute(ctx);
+      let maybePromise = step.execute(ctx);
+
+      if (maybePromise instanceof Promise) {
+        currentResult = await maybePromise;
+      } else {
+        currentResult = maybePromise;
+      }
+
       (ctx as any)["prevResult"] = currentResult;
     }
 

@@ -1,3 +1,4 @@
+import { ClientError } from "../../../error";
 import { PCustomerDAO } from "../dao";
 import { initializeInternalContext } from "../../../context/internal-context";
 
@@ -14,7 +15,6 @@ import type { TFindPCustomerParams } from "../dao/type";
  * @returns
  */
 export async function getCustomers(ctx: TRuntimeContext) {
-  const params = await ctx.getParams<{ id: string }>();
   const query = await ctx.getParams<{ limit: string; startKey: string }>();
 
   const pcustomerDao = new PCustomerDAO();
@@ -27,6 +27,12 @@ export async function getCustomers(ctx: TRuntimeContext) {
   };
 
   const result = await pcustomerDao.listPCustomers(internalCtx);
+
+  if (!result) {
+    const err = new ClientError("Customers not found");
+    err.asHTTPError("NotFound");
+    return err;
+  }
 
   return result;
 }

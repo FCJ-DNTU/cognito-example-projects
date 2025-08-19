@@ -1,5 +1,8 @@
 import { Pipeline } from "../../../context/pipeline";
 
+// Import errors
+import { ClientError } from "../../../error";
+
 // Import functions
 import { getCustomer } from "../functions/get-pcustomer";
 import { getCustomers } from "../functions/get-pcustomers";
@@ -31,6 +34,10 @@ getCustomerPipeline.addStep(getCustomer).addStep<void>((ctx) => {
 });
 
 getCustomersPipeline.addStep(getCustomers).addStep<void>((ctx) => {
+  if (ctx.prevResult instanceof ClientError) {
+    return ctx.sendError(ctx.prevResult);
+  }
+
   return ctx.sendJson(ctx.prevResult);
 });
 

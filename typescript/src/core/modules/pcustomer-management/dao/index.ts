@@ -217,8 +217,11 @@ export class PCustomerDAO implements IPCustomerDAO {
 
       const input = this._createBaseQueryCommandInput(ctx);
 
+      input["ExpressionAttributeNames"] = {
+        "#customerType": "type",
+      };
       input["KeyConditionExpression"] =
-        "pk = :pk AND begins_with(sk, :customerIdPrefix)";
+        "#customerType = :pk AND begins_with(id, :customerIdPrefix)";
       input["ExpressionAttributeValues"] = {
         ":pk": { S: "potential_customer" },
         ":customerIdPrefix": { S: "CUSTOMER#" },
@@ -247,7 +250,10 @@ export class PCustomerDAO implements IPCustomerDAO {
 
       const input = this._createBaseQueryCommandInput(ctx);
 
-      input["KeyConditionExpression"] = "pk = :pk AND sk = :sk";
+      input["ExpressionAttributeNames"] = {
+        "#customerType": "type",
+      };
+      input["KeyConditionExpression"] = "#customerType = :pk AND id = :sk";
       input["ExpressionAttributeValues"] = {
         ":pk": { S: "potential_customer" },
         ":sk": { S: ctx.params.query?.id! },
