@@ -1,11 +1,13 @@
+// Import types
 import type { TRuntimeContext } from "../../../context/runtime-context";
 
 /**
- * Lấy một người dùng ở trong cơ sở dữ liệu, theo một số điều kiện.
+ * Lấy danh sách các khác hàng ở trong cơ sở dữ liệu.
  *
- * @param ctx - runtime context
+ * @param ctx - runtime context.
+ *
+ * @returns
  */
-export async function getCustomer(ctx: TRuntimeContext) {
-  const params = await ctx.getParams();
-  return ctx.sendJson(params);
+export async function getCustomers(ctx: TRuntimeContext) {
+  return ctx.sendJson([], { size: 0 });
 }
