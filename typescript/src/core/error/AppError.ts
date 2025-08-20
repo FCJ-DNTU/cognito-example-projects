@@ -36,7 +36,7 @@ export type UHTTPServerErrorType = keyof typeof HTTPServerErrorDict;
 export class AppError extends Error {
   public statusCode: number;
   public code?: string;
-  public details?: any;
+  public details?: TErrorDetails;
 
   constructor(
     message: string,
@@ -64,6 +64,22 @@ export class AppError extends Error {
       source,
       desc,
     };
+  }
+
+  /**
+   * Thêm chi tiết lỗi vào tổng lỗi.
+   *
+   * @param detail - chi tiết lỗi.
+   *
+   * @returns
+   */
+  addErrorDetail(detail: TBaseErrorDetail) {
+    if (!this.details) this.details = { reasons: [detail] };
+    else if (this.details && !this.details.reasons) {
+      this.details.reasons = [detail];
+    } else {
+      this.details.reasons?.push(detail);
+    }
   }
 
   /**

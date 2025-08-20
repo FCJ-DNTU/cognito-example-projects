@@ -11,19 +11,35 @@ export type TSwaggerResponse = {
   };
 };
 
+export type TSwaggerSchema = {
+  type: string;
+  items?: TSwaggerSchema;
+  properties?: {
+    [K: string]: TSwaggerSchema;
+  };
+};
+
+export type TSwaggerParameters = {
+  name: string;
+  in: string;
+  required?: boolean;
+  schema: TSwaggerSchema;
+  description?: string;
+};
+
 export type TRouteDefinition = {
   method: HTTPMethod;
   path: string;
   handler: RequestHandler;
   summary?: string;
   description?: string;
-  tags?: string[];
-  parameters?: object[];
+  tags?: Array<string>;
+  parameters?: Array<TSwaggerParameters>;
   requestBody?: {
     required?: boolean;
     content: {
       [contentType: string]: {
-        schema: object;
+        schema: TSwaggerSchema;
       };
     };
   };

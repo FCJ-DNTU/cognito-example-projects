@@ -1,3 +1,4 @@
+import { AppError, isStandardError } from "../../../error";
 import { PCustomerDAO } from "../dao";
 import { initializeInternalContext } from "../../../context/internal-context";
 
@@ -14,16 +15,25 @@ import type { TPCustomer } from "../dao/type";
  * @returns
  */
 export async function addCustomer(ctx: TRuntimeContext) {
-  const body = await ctx.getBody<Partial<TPCustomer>>();
+  try {
+    const body = await ctx.getBody<Partial<TPCustomer>>();
 
-  const pcustomerDao = new PCustomerDAO();
-  const internalCtx = initializeInternalContext() as TInternalContext<
-    Partial<TPCustomer>
-  >;
+    const pcustomerDao = new PCustomerDAO();
+    const internalCtx = initializeInternalContext() as TInternalContext<
+      Partial<TPCustomer>
+    >;
 
-  internalCtx.params = body;
+    internalCtx.params = body;
+    internalCtx.options!.canCatchError = true;
 
-  const result = await pcustomerDao.insertPCustomer(internalCtx);
+    const result = await pcustomerDao.insertPCustomer(internalCtx);
 
-  return result;
+    return result;
+  } catch (error: any) {
+    if (isStandardError(error)) return error;
+
+    const err = new AppError("Cannot add new potential customer");
+    err.asHTTPError("InternalServerError");
+    return err;
+  }
 }

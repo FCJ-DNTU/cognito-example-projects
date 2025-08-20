@@ -1,4 +1,4 @@
-import { ClientError } from "../../../error";
+import { AppError, isStandardError } from "../../../error";
 import { PCustomerDAO } from "../dao";
 import { initializeInternalContext } from "../../../context/internal-context";
 
@@ -15,24 +15,27 @@ import type { TFindPCustomerParams } from "../dao/type";
  * @returns
  */
 export async function getCustomers(ctx: TRuntimeContext) {
-  const query = await ctx.getParams<{ limit: string; startKey: string }>();
+  try {
+    const query = await ctx.getParams<{ limit: string; startKey: string }>();
 
-  const pcustomerDao = new PCustomerDAO();
-  const internalCtx =
-    initializeInternalContext() as TInternalContext<TFindPCustomerParams>;
+    const pcustomerDao = new PCustomerDAO();
+    const internalCtx =
+      initializeInternalContext() as TInternalContext<TFindPCustomerParams>;
 
-  internalCtx.params = {
-    limit: query.limit,
-    staryKey: query.startKey,
-  };
+    internalCtx.params = {
+      limit: query.limit,
+      staryKey: query.startKey,
+    };
+    internalCtx.options!.canCatchError = true;
 
-  const result = await pcustomerDao.listPCustomers(internalCtx);
+    const result = await pcustomerDao.listPCustomers(internalCtx);
 
-  if (!result) {
-    const err = new ClientError("Customers not found");
-    err.asHTTPError("NotFound");
+    return result;
+  } catch (error) {
+    if (isStandardError(error)) return error;
+
+    const err = new AppError("Cannot found list of potential customers");
+    err.asHTTPError("InternalServerError");
     return err;
   }
-
-  return result;
 }

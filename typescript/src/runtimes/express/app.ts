@@ -1,5 +1,6 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 
 // Import constants
 import { APP_CONSTANTS } from "../../utils/constants/app.js";
@@ -12,6 +13,15 @@ import { registerRoutes } from "./swagger/helpers.js";
 import { pcustomersRoutes } from "./routes/pcustomer-management";
 
 const app = express();
+
+// Add global middlewares
+app.use(
+  cors({
+    origin: "*",
+  }),
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Register routes
 registerRoutes(app, pcustomersRoutes, spec);

@@ -1,7 +1,7 @@
 import { Pipeline } from "../../../context/pipeline";
 
 // Import errors
-import { ClientError } from "../../../error";
+import { isStandardError } from "../../../error";
 
 // Import functions
 import { getCustomer } from "../functions/get-pcustomer";
@@ -30,26 +30,42 @@ const deleteCustomerPipeline = new Pipeline<TRuntimeContext>(
 );
 
 getCustomerPipeline.addStep(getCustomer).addStep<void>((ctx) => {
-  return ctx.sendJson(ctx.prevResult);
-});
-
-getCustomersPipeline.addStep(getCustomers).addStep<void>((ctx) => {
-  if (ctx.prevResult instanceof ClientError) {
+  if (isStandardError(ctx.prevResult)) {
     return ctx.sendError(ctx.prevResult);
   }
 
   return ctx.sendJson(ctx.prevResult);
 });
 
+getCustomersPipeline.addStep(getCustomers).addStep<void>((ctx) => {
+  if (isStandardError(ctx.prevResult)) {
+    return ctx.sendError(ctx.prevResult);
+  }
+
+  return ctx.sendJson(ctx.prevResult.items, ctx.prevResult.meta);
+});
+
 addCustomerPipeline.addStep(addCustomer).addStep<void>((ctx) => {
+  if (isStandardError(ctx.prevResult)) {
+    return ctx.sendError(ctx.prevResult);
+  }
+
   return ctx.sendJson(ctx.prevResult);
 });
 
 updateCustomerPipeline.addStep(updateCustomer).addStep<void>((ctx) => {
+  if (isStandardError(ctx.prevResult)) {
+    return ctx.sendError(ctx.prevResult);
+  }
+
   return ctx.sendJson(ctx.prevResult);
 });
 
 deleteCustomerPipeline.addStep(deleteCustomer).addStep<void>((ctx) => {
+  if (isStandardError(ctx.prevResult)) {
+    return ctx.sendError(ctx.prevResult);
+  }
+
   return ctx.sendJson(ctx.prevResult);
 });
 

@@ -62,7 +62,7 @@ export class PCustomerDAO implements IPCustomerDAO {
     checkExistanceOrThrowError(
       params,
       "params",
-      "Parameters of findPCustomerByQuery is required",
+      "Parameters of common potential dao methods is required",
     );
   }
 
@@ -128,13 +128,14 @@ export class PCustomerDAO implements IPCustomerDAO {
   ) {
     const currDate = new Date();
 
-    ctx.params.id = currDate.getTime().toString();
+    ctx.params.id = `CUSTOMER#${currDate.getTime().toString()}`;
+    ctx.params.type = "potential_customer";
     ctx.params.createAt = currDate.toISOString();
 
     const input: PutItemCommandInput = {
       TableName: Configs.DynamoDBTableNamePCustomers,
       Item: toDynamoDBItem(ctx.params!),
-      ReturnValues: "ALL_NEW",
+      ReturnValues: "ALL_OLD",
     };
 
     return input;
@@ -235,7 +236,12 @@ export class PCustomerDAO implements IPCustomerDAO {
       console.error("Error - ListPCustomers:", error.message);
 
       if (ctx.options && ctx.options.canCatchError) {
-        throw new AppError(error.message);
+        const aerr = new AppError("Cannot list potential customers");
+        aerr.addErrorDetail({
+          source: "PCustomerDAO.listPCustomers",
+          desc: error.message,
+        });
+        throw aerr;
       }
 
       return undefined;
@@ -271,7 +277,12 @@ export class PCustomerDAO implements IPCustomerDAO {
       console.error("Error - ListPCustomers:", error.message);
 
       if (ctx.options && ctx.options.canCatchError) {
-        throw new AppError(error.message);
+        const aerr = new AppError("Cannot get potential customer");
+        aerr.addErrorDetail({
+          source: "PCustomerDAO.getPCustomer",
+          desc: error.message,
+        });
+        throw aerr;
       }
 
       return undefined;
@@ -288,16 +299,17 @@ export class PCustomerDAO implements IPCustomerDAO {
       const command = new PutItemCommand(input);
       const response = await this._client.send(command);
 
-      console.log("Response - InsertPCustomer:", response);
-
-      return response.Attributes
-        ? (fromDynamoDBItem(response.Attributes) as TPCustomer)
-        : undefined;
+      return response ? (ctx.params as TPCustomer) : undefined;
     } catch (error: any) {
       console.error("Error - InsertPCustomer:", error.message);
 
       if (ctx.options && ctx.options.canCatchError) {
-        throw new AppError(error.message);
+        const aerr = new AppError("Cannot insert potential customer");
+        aerr.addErrorDetail({
+          source: "PCustomerDAO.insertPCustomer",
+          desc: error.message,
+        });
+        throw aerr;
       }
 
       return undefined;
@@ -323,7 +335,12 @@ export class PCustomerDAO implements IPCustomerDAO {
       console.error("Error - UpdatePCustomer:", error.message);
 
       if (ctx.options && ctx.options.canCatchError) {
-        throw new AppError(error.message);
+        const aerr = new AppError("Cannot update potential customer");
+        aerr.addErrorDetail({
+          source: "PCustomerDAO.updatePCustomer",
+          desc: error.message,
+        });
+        throw aerr;
       }
 
       return undefined;
@@ -347,7 +364,12 @@ export class PCustomerDAO implements IPCustomerDAO {
       console.error("Error - DeletePCustomer:", error.message);
 
       if (ctx.options && ctx.options.canCatchError) {
-        throw new AppError(error.message);
+        const aerr = new AppError("Cannot delete potential customer");
+        aerr.addErrorDetail({
+          source: "PCustomerDAO.deletePCustomer",
+          desc: error.message,
+        });
+        throw aerr;
       }
 
       return false;
