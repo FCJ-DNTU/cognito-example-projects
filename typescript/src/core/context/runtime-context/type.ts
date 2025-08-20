@@ -62,6 +62,15 @@ export type TRuntimeContext = {
   getHeaders<T = unknown>(): Promise<T>;
 
   /**
+   * Thiết lập giá trị mới cho body, hoặc là update.
+   *
+   * @param body - body mới hoặc một phần body mới.
+   *
+   * @returns
+   */
+  setBody(body: ((oldBody: any) => any) | any): void;
+
+  /**
    * Gửi lại Client bên ngoài runtime (requester) một Streaming Response.
    *
    * @param stream - dữ liệu truyền về là một dạng stream.

@@ -41,6 +41,14 @@ export function createContext(
     return req.headers as unknown as Promise<T>;
   };
 
+  ctx["setBody"] = function (update) {
+    if (typeof update === "function") {
+      req.body = update(req.body);
+    }
+
+    req.body = update;
+  };
+
   ctx["setHTTPStatus"] = function (status) {
     res.status(status);
   };

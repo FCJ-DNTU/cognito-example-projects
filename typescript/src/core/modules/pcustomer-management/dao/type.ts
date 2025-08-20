@@ -1,9 +1,4 @@
-import type { AttributeValue } from "@aws-sdk/client-dynamodb";
 import type { TInternalContext } from "../../../context/internal-context";
-import type {
-  TPartitionQuery,
-  TSortQuery,
-} from "../../../../utils/dynamodb/type";
 
 export type TPCustomer = {
   id: string;

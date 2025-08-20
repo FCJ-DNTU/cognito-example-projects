@@ -13,6 +13,7 @@ export function initializeRuntimeContext(): Partial<TRuntimeContext> {
     getHeaders: undefined,
     getParams: undefined,
     getQuery: undefined,
+    setBody: undefined,
     sendHTML: undefined,
     sendError: undefined,
     sendJson: undefined,

@@ -5,6 +5,7 @@ import type { UContextType } from "../type";
 import type { TRuntimeContext } from "../runtime-context";
 import type { TInternalContext } from "../internal-context";
 import type { TStepExecutor } from "./Step";
+import type { TPipelineState } from "./type";
 
 /**
  * Lớp định nghĩa một pipeline.
@@ -18,10 +19,16 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
   public name: string;
 
   private _steps: Array<Step<TContext, unknown>>;
+  private _state: TPipelineState;
 
   constructor(name: string) {
     this.name = name;
     this._steps = [];
+    this._state = {
+      currentStep: 0,
+      stepCount: 0,
+      canStopNow: false,
+    };
   }
 
   /**
@@ -41,9 +48,18 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
    */
   addStep<TResult = unknown>(executor: TStepExecutor<TContext, TResult>) {
     const newStep = new Step<TContext, TResult>(executor);
+
     this._steps.push(newStep);
+    this._state.stepCount += 1;
 
     return this;
+  }
+
+  /**
+   * Cho phép dừng pipeline sau sau một step, mà step này gọi stop().
+   */
+  stop() {
+    this._state.canStopNow = true;
   }
 
   /**
@@ -62,6 +78,12 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
       }
 
       (ctx as any)["prevResult"] = currentResult;
+
+      // Process post step execution
+      if (this._state.canStopNow) break;
+
+      // Update state
+      this._state.currentStep += 1;
     }
 
     return currentResult;

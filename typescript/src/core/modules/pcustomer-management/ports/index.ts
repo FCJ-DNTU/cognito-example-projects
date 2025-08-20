@@ -1,7 +1,7 @@
 import { Pipeline } from "../../../context/pipeline";
 
 // Import errors
-import { isStandardError } from "../../../error";
+import { ClientError, isStandardError } from "../../../error";
 
 // Import functions
 import { getCustomer } from "../functions/get-pcustomer";
@@ -9,6 +9,13 @@ import { getCustomers } from "../functions/get-pcustomers";
 import { addCustomer } from "../functions/add-customer";
 import { updateCustomer } from "../functions/update-customer";
 import { deleteCustomer } from "../functions/delete-customer";
+
+// Import validation / validators
+import { createValidationStepExecutor } from "../../../validation/joi/helper";
+import {
+  createPCustomerValidator,
+  updatePCustomerValidator,
+} from "../validator";
 
 // Import types
 import type { TRuntimeContext } from "../../../context/runtime-context";
@@ -45,21 +52,31 @@ getCustomersPipeline.addStep(getCustomers).addStep<void>((ctx) => {
   return ctx.sendJson(ctx.prevResult.items, ctx.prevResult.meta);
 });
 
-addCustomerPipeline.addStep(addCustomer).addStep<void>((ctx) => {
-  if (isStandardError(ctx.prevResult)) {
-    return ctx.sendError(ctx.prevResult);
-  }
+addCustomerPipeline
+  .addStep(
+    createValidationStepExecutor(addCustomerPipeline, createPCustomerValidator),
+  )
+  .addStep(addCustomer)
+  .addStep<void>((ctx) => {
+    if (isStandardError(ctx.prevResult)) {
+      return ctx.sendError(ctx.prevResult);
+    }
 
-  return ctx.sendJson(ctx.prevResult);
-});
+    return ctx.sendJson(ctx.prevResult);
+  });
 
-updateCustomerPipeline.addStep(updateCustomer).addStep<void>((ctx) => {
-  if (isStandardError(ctx.prevResult)) {
-    return ctx.sendError(ctx.prevResult);
-  }
+updateCustomerPipeline
+  .addStep(
+    createValidationStepExecutor(addCustomerPipeline, updatePCustomerValidator),
+  )
+  .addStep(updateCustomer)
+  .addStep<void>((ctx) => {
+    if (isStandardError(ctx.prevResult)) {
+      return ctx.sendError(ctx.prevResult);
+    }
 
-  return ctx.sendJson(ctx.prevResult);
-});
+    return ctx.sendJson(ctx.prevResult);
+  });
 
 deleteCustomerPipeline.addStep(deleteCustomer).addStep<void>((ctx) => {
   if (isStandardError(ctx.prevResult)) {

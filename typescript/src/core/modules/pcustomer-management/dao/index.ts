@@ -18,10 +18,7 @@ import {
   fromDynamoDBItem,
   toDynamoDBItem,
 } from "../../../../utils/dynamodb/helpers";
-import {
-  checkExistanceOrThrowError,
-  checkPropInObjOrThrowError,
-} from "../../../../utils/helpers/check";
+import { checkExistanceOrThrowError } from "../../../../utils/helpers/check";
 import { urlSafeEncode, urlSafeDecode } from "../../../../utils/crypto/base64";
 
 // Import types
@@ -32,7 +29,6 @@ import type {
   UpdateItemCommandInput,
   DeleteItemCommandInput,
   QueryOutput,
-  InternalServerError,
 } from "@aws-sdk/client-dynamodb";
 import type { TInternalContext } from "../../../context/internal-context";
 import type {
@@ -42,7 +38,6 @@ import type {
   TDeletePCustomerParams,
   TPCustomer,
 } from "./type";
-import { TDeleteByQuery } from "../../../context/data-access-object/type";
 
 export class PCustomerDAO implements IPCustomerDAO {
   private _client!: DynamoDBClient;
