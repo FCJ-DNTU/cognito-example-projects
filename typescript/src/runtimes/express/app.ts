@@ -10,6 +10,7 @@ import { spec } from "./swagger";
 import { registerRoutes } from "./swagger/helpers.js";
 
 // Import routes
+import { authRoutes } from "./routes/auth/index.js";
 import { pcustomersRoutes } from "./routes/pcustomer-management";
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Register routes
+registerRoutes(app, authRoutes, spec);
 registerRoutes(app, pcustomersRoutes, spec);
 
 // Route swagger

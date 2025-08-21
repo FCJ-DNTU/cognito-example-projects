@@ -41,6 +41,15 @@ export type TRuntimeContext = {
   getBody<T = unknown>(): Promise<T>;
 
   /**
+   * Lấy dữ liệu tạm thời đã được lưu trong context với key.
+   *
+   * @param key - key của dữ liệu đã lưu.
+   *
+   * @returns
+   */
+  getTempData<T = unknown>(key: string): Promise<T>;
+
+  /**
    * Lấy phần query trong URL.
    *
    * @returns
@@ -69,6 +78,16 @@ export type TRuntimeContext = {
    * @returns
    */
   setBody(body: ((oldBody: any) => any) | any): void;
+
+  /**
+   * Thêm dữ liệu tạm thời vào trong context với key.
+   *
+   * @param key - key của dữ liệu.
+   * @param data - dữ liệu cần lưu.
+   *
+   * @returns
+   */
+  addTempData<T = unknown>(key: string, data: T): void;
 
   /**
    * Gửi lại Client bên ngoài runtime (requester) một Streaming Response.

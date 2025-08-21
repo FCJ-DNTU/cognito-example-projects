@@ -33,6 +33,9 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     summary: "Lấy các khách hàng tiềm năng.",
     description: "Lấy các khách hàng tiềm năng ở trong hệ thống.",
     tags: [pcustomersTag],
+    security: {
+      bearerAuth: [],
+    },
     parameters: [
       {
         name: "limit",
@@ -77,6 +80,9 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     summary: "Lấy thông tin của một khách hàng tiềm năng.",
     description: "Lấy thông tin của một khách hàng tiềm năng trong hệ thống.",
     tags: [pcustomersTag],
+    security: {
+      bearerAuth: [],
+    },
     parameters: [
       {
         name: "id",
@@ -110,6 +116,9 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     summary: "Thêm thông tin khách hàng tiềm năng.",
     description: "Thêm thông tin của một khách hàng tiềm năng vào hệ thống.",
     tags: [pcustomersTag],
+    security: {
+      bearerAuth: [],
+    },
     requestBody: {
       required: true,
       content: {
@@ -143,6 +152,9 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     description:
       "Chỉnh sửa thông tin của một khách hàng tiềm năng có sẵn trong hệ thống.",
     tags: [pcustomersTag],
+    security: {
+      bearerAuth: [],
+    },
     parameters: [
       {
         name: "id",
@@ -184,6 +196,9 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     summary: "Xoá thông tin của một khách hàng tiềm năng.",
     description: "Xoá thông tin của một khách hàng tiềm năng ra khỏi hệ thống.",
     tags: [pcustomersTag],
+    security: {
+      bearerAuth: [],
+    },
     parameters: [
       {
         name: "id",

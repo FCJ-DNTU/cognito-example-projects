@@ -14,6 +14,20 @@ const options = {
       description:
         "Tài liệu API cho Cognito Example Application with Typescript",
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     servers: [
       {
         url: `http://${APP_CONSTANTS.HOST}:${APP_CONSTANTS.PORT}`,

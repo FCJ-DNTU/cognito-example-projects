@@ -31,6 +31,9 @@ export type TRouteDefinition = {
   method: HTTPMethod;
   path: string;
   handler: RequestHandler;
+  security?: {
+    bearerAuth?: Array<any>;
+  };
   summary?: string;
   description?: string;
   tags?: Array<string>;

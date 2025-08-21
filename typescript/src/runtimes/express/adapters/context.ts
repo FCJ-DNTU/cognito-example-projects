@@ -41,12 +41,20 @@ export function createContext(
     return req.headers as unknown as Promise<T>;
   };
 
+  ctx["getTempData"] = async function <T = any>(key: string) {
+    return res.locals[key] as unknown as Promise<T>;
+  };
+
   ctx["setBody"] = function (update) {
     if (typeof update === "function") {
       req.body = update(req.body);
     }
 
     req.body = update;
+  };
+
+  ctx["addTempData"] = function <T = any>(key: string, data: T) {
+    res.locals[key] = data;
   };
 
   ctx["setHTTPStatus"] = function (status) {

@@ -16,18 +16,24 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node-jose": "^1.1.13",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "esbuild": "^0.25.9",
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.872.0",
     "@aws-sdk/client-dynamodb": "^3.868.0",
     "@aws-sdk/util-dynamodb": "^3.868.0",
+    "axios": "^1.11.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "joi": "^18.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-jose": "^2.2.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   }
