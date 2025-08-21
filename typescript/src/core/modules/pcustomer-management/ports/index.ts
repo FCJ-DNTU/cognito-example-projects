@@ -1,5 +1,9 @@
 import { Pipeline } from "../../../context/pipeline";
 
+// Import constants
+import { ROLES } from "../../auth/constants";
+import { TEAMS } from "../../auth/constants";
+
 // Import errors
 import { ClientError, isStandardError } from "../../../error";
 
@@ -10,6 +14,8 @@ import { addCustomer } from "../functions/add-customer";
 import { updateCustomer } from "../functions/update-customer";
 import { deleteCustomer } from "../functions/delete-customer";
 import { createVerifyTokenStepExecutor } from "../../auth/functions/verify-token";
+import { createTeamsCheckStepExecutor } from "../../auth/functions/check-teams";
+import { createRolesCheckStepExecutor } from "../../auth/functions/check-role";
 
 // Import validation / validators
 import { createValidationStepExecutor } from "../../../validation/joi/helper";
@@ -39,6 +45,18 @@ const deleteCustomerPipeline = new Pipeline<TRuntimeContext>(
 
 getCustomerPipeline
   .addStep(createVerifyTokenStepExecutor(getCustomerPipeline))
+  .addStep(
+    createRolesCheckStepExecutor(getCustomerPipeline, [
+      ROLES.EMPLOYEE.NAME,
+      ROLES.ADMIN.NAME,
+    ]),
+  )
+  .addStep(
+    createTeamsCheckStepExecutor(getCustomerPipeline, [
+      TEAMS.MARKETING.NAME,
+      TEAMS.SALES.NAME,
+    ]),
+  )
   .addStep(getCustomer)
   .addStep<void>((ctx) => {
     if (isStandardError(ctx.prevResult)) {
@@ -50,6 +68,18 @@ getCustomerPipeline
 
 getCustomersPipeline
   .addStep(createVerifyTokenStepExecutor(getCustomersPipeline))
+  .addStep(
+    createRolesCheckStepExecutor(getCustomersPipeline, [
+      ROLES.EMPLOYEE.NAME,
+      ROLES.ADMIN.NAME,
+    ]),
+  )
+  .addStep(
+    createTeamsCheckStepExecutor(getCustomersPipeline, [
+      TEAMS.MARKETING.NAME,
+      TEAMS.SALES.NAME,
+    ]),
+  )
   .addStep(getCustomers)
   .addStep<void>((ctx) => {
     if (isStandardError(ctx.prevResult)) {
@@ -64,6 +94,15 @@ addCustomerPipeline
   .addStep(
     createValidationStepExecutor(addCustomerPipeline, createPCustomerValidator),
   )
+  .addStep(
+    createRolesCheckStepExecutor(addCustomerPipeline, [
+      ROLES.EMPLOYEE.NAME,
+      ROLES.ADMIN.NAME,
+    ]),
+  )
+  .addStep(
+    createTeamsCheckStepExecutor(addCustomerPipeline, [TEAMS.SALES.NAME]),
+  )
   .addStep(addCustomer)
   .addStep<void>((ctx) => {
     if (isStandardError(ctx.prevResult)) {
@@ -75,6 +114,15 @@ addCustomerPipeline
 
 updateCustomerPipeline
   .addStep(createVerifyTokenStepExecutor(updateCustomerPipeline))
+  .addStep(
+    createRolesCheckStepExecutor(updateCustomerPipeline, [
+      ROLES.EMPLOYEE.NAME,
+      ROLES.ADMIN.NAME,
+    ]),
+  )
+  .addStep(
+    createTeamsCheckStepExecutor(updateCustomerPipeline, [TEAMS.SALES.NAME]),
+  )
   .addStep(
     createValidationStepExecutor(
       updateCustomerPipeline,
@@ -92,6 +140,15 @@ updateCustomerPipeline
 
 deleteCustomerPipeline
   .addStep(createVerifyTokenStepExecutor(deleteCustomerPipeline))
+  .addStep(
+    createRolesCheckStepExecutor(deleteCustomerPipeline, [
+      ROLES.EMPLOYEE.NAME,
+      ROLES.ADMIN.NAME,
+    ]),
+  )
+  .addStep(
+    createTeamsCheckStepExecutor(deleteCustomerPipeline, [TEAMS.SALES.NAME]),
+  )
   .addStep(deleteCustomer)
   .addStep<void>((ctx) => {
     if (isStandardError(ctx.prevResult)) {
