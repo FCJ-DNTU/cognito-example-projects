@@ -199,7 +199,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
         {
           type: "object",
           properties: {
-            id: { type: "string" },
+            data: { type: "boolean" },
           },
         },
         "Thông tin của khách hàng tiềm năng.",

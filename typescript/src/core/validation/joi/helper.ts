@@ -24,7 +24,7 @@ export function createValidationStepExecutor(
 
     if (validated.error) {
       // Stop pipeline
-      pipeline.stop();
+      pipeline.stop(ctx);
 
       const err = new ClientError(validated.error.message);
 

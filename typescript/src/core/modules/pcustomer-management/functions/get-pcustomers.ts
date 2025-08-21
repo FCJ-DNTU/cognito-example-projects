@@ -16,7 +16,7 @@ import type { TFindPCustomerParams } from "../dao/type";
  */
 export async function getCustomers(ctx: TRuntimeContext) {
   try {
-    const query = await ctx.getParams<{ limit: string; startKey: string }>();
+    const query = await ctx.getQuery<{ limit: string; startKey: string }>();
 
     const pcustomerDao = new PCustomerDAO();
     const internalCtx =

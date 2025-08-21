@@ -146,7 +146,7 @@ export class PCustomerDAO implements IPCustomerDAO {
   private _createBaseUpdateItemCommandInput(
     ctx: TInternalContext<Partial<TPCustomer>>,
   ) {
-    let { id, createAt, ...updatableData } = ctx.params;
+    let { id, ...updatableData } = ctx.params;
     let { setExpression, expressionAttrValues } =
       buildSetUpdateExpression(updatableData)!;
 
@@ -154,7 +154,7 @@ export class PCustomerDAO implements IPCustomerDAO {
       TableName: Configs.DynamoDBTableNamePCustomers,
       Key: toDynamoDBItem({
         id,
-        createAt,
+        type: "potential_customer",
       }),
 
       UpdateExpression: setExpression,

@@ -5,7 +5,7 @@ import type { UContextType } from "../type";
 import type { TRuntimeContext } from "../runtime-context";
 import type { TInternalContext } from "../internal-context";
 import type { TStepExecutor } from "./Step";
-import type { TPipelineState } from "./type";
+import type { TPipelineRunState } from "./type";
 
 /**
  * Lớp định nghĩa một pipeline.
@@ -19,16 +19,12 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
   public name: string;
 
   private _steps: Array<Step<TContext, unknown>>;
-  private _state: TPipelineState;
+  private _runStates: Map<any, TPipelineRunState>;
 
   constructor(name: string) {
     this.name = name;
     this._steps = [];
-    this._state = {
-      currentStep: 0,
-      stepCount: 0,
-      canStopNow: false,
-    };
+    this._runStates = new Map<any, TPipelineRunState>();
   }
 
   /**
@@ -50,7 +46,6 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
     const newStep = new Step<TContext, TResult>(executor);
 
     this._steps.push(newStep);
-    this._state.stepCount += 1;
 
     return this;
   }
@@ -58,8 +53,12 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
   /**
    * Cho phép dừng pipeline sau sau một step, mà step này gọi stop().
    */
-  stop() {
-    this._state.canStopNow = true;
+  stop(ctx: TContext) {
+    let currState = this._runStates.get(ctx);
+
+    if (!currState) return;
+
+    currState.canStopNow = true;
   }
 
   /**
@@ -67,6 +66,8 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
    */
   async run(ctx: TContext) {
     let currentResult: any;
+
+    this._runStates.set(ctx, { currentStep: 0, canStopNow: false });
 
     for (const step of this._steps) {
       let maybePromise = step.execute(ctx);
@@ -80,11 +81,14 @@ export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
       (ctx as any)["prevResult"] = currentResult;
 
       // Process post step execution
-      if (this._state.canStopNow) break;
+      if (this._runStates.get(ctx)!.canStopNow) break;
 
       // Update state
-      this._state.currentStep += 1;
+      this._runStates.get(ctx)!.currentStep += 1;
     }
+
+    // Clear state
+    this._runStates.delete(ctx);
 
     return currentResult;
   }

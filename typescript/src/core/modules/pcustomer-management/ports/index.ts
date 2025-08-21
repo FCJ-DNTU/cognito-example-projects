@@ -67,7 +67,10 @@ addCustomerPipeline
 
 updateCustomerPipeline
   .addStep(
-    createValidationStepExecutor(addCustomerPipeline, updatePCustomerValidator),
+    createValidationStepExecutor(
+      updateCustomerPipeline,
+      updatePCustomerValidator,
+    ),
   )
   .addStep(updateCustomer)
   .addStep<void>((ctx) => {

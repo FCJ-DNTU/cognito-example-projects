@@ -1,5 +1,4 @@
-export type TPipelineState = {
+export type TPipelineRunState = {
   currentStep: number;
-  stepCount: number;
   canStopNow: boolean;
 };

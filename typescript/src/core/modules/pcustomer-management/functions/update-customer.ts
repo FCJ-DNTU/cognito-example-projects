@@ -17,13 +17,14 @@ import type { TPCustomer } from "../dao/type";
 export async function updateCustomer(ctx: TRuntimeContext) {
   try {
     const body = await ctx.getBody<Partial<TPCustomer>>();
+    const params = await ctx.getParams<{ id: string }>();
 
     const pcustomerDao = new PCustomerDAO();
     const internalCtx = initializeInternalContext() as TInternalContext<
       Partial<TPCustomer>
     >;
 
-    internalCtx.params = body;
+    internalCtx.params = { id: params.id, ...body };
     internalCtx.options!.canCatchError = true;
 
     const result = await pcustomerDao.updatePCustomer(internalCtx);
