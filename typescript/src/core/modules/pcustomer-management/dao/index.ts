@@ -17,7 +17,7 @@ import {
   buildSetUpdateExpression,
   fromDynamoDBItem,
   toDynamoDBItem,
-} from "../../../../utils/dynamodb/helpers";
+} from "../../../../utils/helpers/dynamodb";
 import { checkExistanceOrThrowError } from "../../../../utils/helpers/check";
 import { urlSafeEncode, urlSafeDecode } from "../../../../utils/crypto/base64";
 

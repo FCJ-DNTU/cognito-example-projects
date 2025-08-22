@@ -1,0 +1,7 @@
+{
+  "include": ["."],
+  "venvPath": "./",
+  "venv": "venv",
+  "watchForSourceChanges": true,
+  "watchForLibraryChanges": true
+}

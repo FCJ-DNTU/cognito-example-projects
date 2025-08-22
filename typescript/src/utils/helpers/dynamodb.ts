@@ -1,11 +1,11 @@
-import { AttributeValue, DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { AttributeValue } from "@aws-sdk/client-dynamodb";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 
 // Import errors
 import { ClientError } from "../../core/error";
 
 // Import helpers
-import { isNumber } from "../helpers/number";
+import { isNumber } from "./number";
 
 /**
  * Replace Decimal-like values with native JS numbers
@@ -161,12 +161,4 @@ export function buildSetUpdateExpression(
   setExpression = setExpression.slice(0, -1);
 
   return { setExpression, expressionAttrValues };
-}
-
-export function buildConditionExpression(
-  obj: Record<string, any> | null = null,
-) {
-  if (!obj) return;
-
-  const expressionAttrValues = _buildExpressionAttrValues(obj);
 }
