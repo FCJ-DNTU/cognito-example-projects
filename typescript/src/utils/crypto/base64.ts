@@ -1,14 +1,7 @@
 import { Buffer } from "buffer";
 
-type JsonValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JsonValue[]
-  | { [key: string]: JsonValue };
-
-type Encodable = JsonValue | [JsonValue, ...JsonValue[]];
+// Import types
+import type { JsonValue, Encodable } from "./type";
 
 /**
  * Mã hoá dữ liệu (có thể chuyển sang sang json) thành base64.
@@ -33,11 +26,7 @@ export function decode(encoded: string): Encodable {
   const jsonStr = Buffer.from(encoded, "base64").toString();
   const data = JSON.parse(jsonStr);
 
-  if (
-    typeof data === "object" &&
-    data?.__tuple__ === true &&
-    Array.isArray(data.items)
-  ) {
+  if (typeof data === "object" && Array.isArray(data.items)) {
     return data.items as JsonValue[];
   }
 
@@ -68,11 +57,7 @@ export function urlSafeDecode(encoded: string): Encodable {
   const jsonStr = Buffer.from(encoded, "base64url").toString();
   const data = JSON.parse(jsonStr);
 
-  if (
-    typeof data === "object" &&
-    data?.__tuple__ === true &&
-    Array.isArray(data.items)
-  ) {
+  if (typeof data === "object" && Array.isArray(data.items)) {
     return data.items as JsonValue[];
   }
 

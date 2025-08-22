@@ -17,19 +17,18 @@ export const fullNameValidator = joi
   .pattern(VIETNAMESE_NAME_REGEX)
   .messages({
     "string.pattern.base":
-      "FullName must be a valid VietNamese Name. Don't include any special character.",
-    "string.base": "FullName must be a string",
-    "string.empty": "FullName cannot be empty",
-    "any.required": "FullName is required",
+      "fullName must be a valid VietNamese Name. Don't include any special character.",
+    "string.base": "fullName must be a string",
+    "string.empty": "fullName cannot be empty",
+    "any.required": "fullName is required",
   });
 export const phoneValidator = joi
   .string()
   .pattern(VIETNAMESE_PHONENUMBER_REGEX)
   .messages({
-    "string.pattern.base":
-      "Phone number must be a valid VietNamese phone number",
-    "string.base": "Phone number must be a string",
-    "any.required": "Phone number is required",
+    "string.pattern.base": "phone must be a valid VietNamese phone number",
+    "string.base": "phone number must be a string",
+    "any.required": "phone number is required",
   });
 export const ageValidator = joi.number().min(18).max(90);
 export const productCodeValidator = joi
@@ -38,19 +37,19 @@ export const productCodeValidator = joi
   .messages({
     "string.pattern.base":
       "ProductCode must be a valid snake_case and don't include any special character.",
-    "string.base": "ProductCode must be a string",
-    "string.empty": "ProductCode cannot be empty",
-    "any.required": "ProductCode is required",
+    "string.base": "productCode must be a string",
+    "string.empty": "productCode cannot be empty",
+    "any.required": "productCode is required",
   });
 export const createAtValidator = joi
   .string()
   .pattern(ISO8601_DATETIME_REGEX)
   .messages({
     "string.pattern.base":
-      "CreateAt must be a valid ISO 8601 Date String as full length.",
-    "string.base": "CreateAt must be a string",
-    "string.empty": "CreateAt cannot be empty",
-    "any.required": "CreateAt is required",
+      "createAt must be a valid ISO 8601 Date String as full length.",
+    "string.base": "createAt must be a string",
+    "string.empty": "createAt cannot be empty",
+    "any.required": "createAt is required",
   });
 
 // Định nghĩa dict / object thành validator

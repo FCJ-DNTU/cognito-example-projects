@@ -1,5 +1,3 @@
-import type { UContextType } from "../type";
-
 export type TStepExecutor<TContext, TResult> = (
   ctx: TContext,
 ) => Promise<TResult> | TResult;

@@ -1,7 +1,6 @@
 import { Step } from "./Step";
 
 // Import types
-import type { UContextType } from "../type";
 import type { TRuntimeContext } from "../runtime-context";
 import type { TInternalContext } from "../internal-context";
 import type { TStepExecutor } from "./Step";
