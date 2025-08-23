@@ -1,4 +1,4 @@
-export type TBaseErrorDetail = { source: string; desc: string } & Record<
+export type TBaseErrorDetail = { source: string; desc?: string } & Record<
   string,
   any
 >;

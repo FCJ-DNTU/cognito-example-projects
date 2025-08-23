@@ -7,9 +7,12 @@ import { ClientError, isStandardError } from "../../../error";
 import { signIn } from "../functions/sign-in";
 import { refreshTokens } from "../functions/refresh-tokens";
 
-// Import validation / validators
+// Import schema & validators
+import {
+  signInDataSchema,
+  refreshTokensDataSchema,
+} from "../data-model/schema";
 import { createValidationStepExecutor } from "../../../validation/joi/helper";
-import { signInValidator, refreshTokensValidator } from "../validator";
 
 // Import types
 import type { TRuntimeContext } from "../../../context/runtime-context";
@@ -20,7 +23,7 @@ const refreshTokensPipeline = new Pipeline<TRuntimeContext>(
 );
 
 signInPipeline
-  .addStep(createValidationStepExecutor(signInPipeline, signInValidator))
+  .addStep(createValidationStepExecutor(signInPipeline, signInDataSchema))
   .addStep(signIn)
   .addStep<void>((ctx) => {
     if (isStandardError(ctx.prevResult)) {
@@ -32,7 +35,10 @@ signInPipeline
 
 refreshTokensPipeline
   .addStep(
-    createValidationStepExecutor(refreshTokensPipeline, refreshTokensValidator),
+    createValidationStepExecutor(
+      refreshTokensPipeline,
+      refreshTokensDataSchema,
+    ),
   )
   .addStep(refreshTokens)
   .addStep<void>((ctx) => {

@@ -1,11 +1,11 @@
 import { AppError, isStandardError } from "../../../error";
-import { PCustomerDAO } from "../dao";
+import { PCustomerDAO } from "../data-model/dao";
 import { initializeInternalContext } from "../../../context/internal-context";
 
 // Import types
 import type { TRuntimeContext } from "../../../context/runtime-context";
 import type { TInternalContext } from "../../../context/internal-context";
-import type { TFindPCustomerParams } from "../dao/type";
+import type { TFindPCustomerParams } from "../data-model/type";
 
 /**
  * Lấy một người dùng ở trong cơ sở dữ liệu, theo một số điều kiện.

@@ -7,7 +7,7 @@ import type { TInternalContext } from "./type";
  */
 export function initializeInternalContext(): TInternalContext {
   return {
-    params: undefined,
+    params: {},
     runtimeCtx: undefined,
     options: {
       canCatchError: false,

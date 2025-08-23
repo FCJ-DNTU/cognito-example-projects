@@ -38,6 +38,6 @@ const options = {
 };
 
 /** Main Swagger Doc */
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerDoc = swaggerJSDoc(options);
 
-export { swaggerSpec as spec };
+export { swaggerDoc };

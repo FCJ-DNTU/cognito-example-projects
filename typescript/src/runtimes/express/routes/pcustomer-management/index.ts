@@ -1,9 +1,11 @@
 // Import properties from core
 import {
-  pcustomerProperties,
-  pcustomerToAddProperties,
-  pcustomerToUpdateProperties,
-} from "../../../../core/modules/pcustomer-management/dao/properties";
+  pcustomerDescriptiveObject,
+  createPCustomerSchema,
+  createPCustomerDescriptiveObject,
+  updatePCustomerSchema,
+  updatePCustomerDescriptiveObject,
+} from "../../../../core/modules/pcustomer-management/data-model/schema";
 
 // Import pipelines from core
 import {
@@ -15,11 +17,11 @@ import {
 } from "../../../../core/modules/pcustomer-management/ports";
 
 // Import from runtime
-import { jsonResponse } from "../../swagger/helpers";
+import { jsonResponse } from "../../../../core/docs/swagger/helpers";
 import { createContext } from "../../adapters/context";
 
 // Import types
-import type { TRouteDefinition } from "../../swagger/type";
+import type { TRouteDefinition } from "../../../../core/docs/swagger/type";
 
 export const pcustomersTag = "Potential Customer";
 export const pcustomersRoutes: TRouteDefinition[] = [
@@ -59,10 +61,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
         {
           type: "object",
           properties: {
-            data: {
-              type: "array",
-              items: { type: "object", properties: pcustomerProperties },
-            },
+            data: pcustomerDescriptiveObject,
             meta: { type: "object" },
           },
         },
@@ -98,7 +97,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
         {
           type: "object",
           properties: {
-            data: { type: "object", properties: pcustomerProperties },
+            data: pcustomerDescriptiveObject,
             meta: { type: "object" },
           },
         },
@@ -123,7 +122,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
       required: true,
       content: {
         "application/json": {
-          schema: { type: "object", properties: pcustomerToAddProperties },
+          schema: createPCustomerDescriptiveObject,
         },
       },
     },
@@ -133,7 +132,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
         {
           type: "object",
           properties: {
-            data: { type: "object", properties: pcustomerProperties },
+            data: pcustomerDescriptiveObject,
             meta: { type: "object" },
           },
         },
@@ -168,7 +167,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
       required: true,
       content: {
         "application/json": {
-          schema: { type: "object", properties: pcustomerToUpdateProperties },
+          schema: updatePCustomerDescriptiveObject,
         },
       },
     },
@@ -178,7 +177,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
         {
           type: "object",
           properties: {
-            data: { type: "object", properties: pcustomerProperties },
+            data: pcustomerDescriptiveObject,
             meta: { type: "object" },
           },
         },

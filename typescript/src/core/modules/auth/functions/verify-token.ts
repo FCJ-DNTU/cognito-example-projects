@@ -7,6 +7,8 @@ import { Configs } from "../../../../utils/configs/index.js";
 // Import errors
 import { AppError, ClientError, isStandardError } from "../../../error";
 
+import { initializeInternalContext } from "../../../context/internal-context/index.js";
+
 // Import helpers
 import { getAuthorizationToken } from "../helpers/get-authorization-token.js";
 import { getPublicKeys } from "../helpers/get-public-keys.js";
@@ -29,7 +31,12 @@ const appClientId = Configs.CognitoAppClientId;
  */
 export async function verifyToken(ctx: TRuntimeContext) {
   try {
-    const token = await getAuthorizationToken(ctx);
+    // Setup context before go further
+    const internalCtx = initializeInternalContext();
+    (internalCtx.params as any).headers = await ctx.getHeaders();
+    internalCtx.options!.canCatchError = true;
+
+    const token = getAuthorizationToken(internalCtx)!;
     const decodedHeader = jwt.decode(token, { complete: true });
 
     if (!decodedHeader || !decodedHeader.header.kid) {

@@ -1,11 +1,11 @@
 import { AppError, isStandardError } from "../../../error";
-import { PCustomerDAO } from "../dao";
+import { PCustomerDAO } from "../data-model/dao";
 import { initializeInternalContext } from "../../../context/internal-context";
 
 // Import types
 import type { TRuntimeContext } from "../../../context/runtime-context";
 import type { TInternalContext } from "../../../context/internal-context";
-import type { TDeletePCustomerParams } from "../dao/type";
+import type { TDeletePCustomerParams } from "../data-model/type";
 
 /**
  * Xoá thông tin của một khách hàng ra khỏi danh sách.

@@ -16,11 +16,11 @@ import type { TRuntimeContext } from "../../context/runtime-context";
  */
 export function createValidationStepExecutor(
   pipeline: Pipeline<any>,
-  validator: ObjectSchema,
+  schema: ObjectSchema,
 ) {
   return async function (ctx: TRuntimeContext) {
     const body = await ctx.getBody();
-    const validated = validator.validate(body);
+    const validated = schema.validate(body);
 
     if (validated.error) {
       // Stop pipeline
@@ -37,4 +37,44 @@ export function createValidationStepExecutor(
       return ctx.sendError(err);
     }
   };
+}
+
+function _toDescriptiveObjectCore(description: any) {
+  const result: any = {};
+
+  if (Array.isArray(description)) {
+    for (const key of description) {
+      result[key] = _toDescriptiveObjectCore(description[key]);
+    }
+
+    return result;
+  }
+
+  result.type = description.type;
+
+  if (description.type === "object") {
+    result.properties = {};
+
+    for (const key in description.keys) {
+      result.properties[key] = _toDescriptiveObjectCore(description.keys[key]);
+    }
+  }
+
+  if (description.type === "array") {
+    result.items = _toDescriptiveObjectCore(description.items[0]);
+  }
+
+  return result;
+}
+
+/**
+ * Trả về descriptive object từ joi schema, để dùng trong một số module khác.
+ *
+ * @param joiSchema - joi schema
+ *
+ * @returns
+ */
+export function toDescriptiveObject(joiSchema: ObjectSchema) {
+  const description = joiSchema.describe();
+  return _toDescriptiveObjectCore(description);
 }

@@ -1,21 +1,21 @@
 // Import properties from core
 import {
-  signInDataProperties,
-  signInResultProperties,
-  refreshTokensDataProperties,
-  refreshTokensResultProperties,
-} from "../../../../core/modules/auth/dao/properties";
+  signInDataDescriptiveObject,
+  signInResultDescriptiveObject,
+  refreshTokensDataDescriptiveObject,
+  refreshTokensResultDescriptiveObject,
+} from "../../../../core/modules/auth/data-model/schema";
 
 // Import pipelines from core
 import { signInPipeline } from "../../../../core/modules/auth/ports";
 import { refreshTokensPipeline } from "../../../../core/modules/auth/ports";
 
 // Import from runtime
-import { jsonResponse } from "../../swagger/helpers";
+import { jsonResponse } from "../../../../core/docs/swagger/helpers";
 import { createContext } from "../../adapters/context";
 
 // Import types
-import type { TRouteDefinition } from "../../swagger/type";
+import type { TRouteDefinition } from "../../../../core/docs/swagger/type";
 
 export const authTag = "Auth";
 export const authRoutes: TRouteDefinition[] = [
@@ -37,7 +37,7 @@ export const authRoutes: TRouteDefinition[] = [
       required: true,
       content: {
         "application/json": {
-          schema: { type: "object", properties: signInDataProperties },
+          schema: signInDataDescriptiveObject,
         },
       },
     },
@@ -47,10 +47,7 @@ export const authRoutes: TRouteDefinition[] = [
         {
           type: "object",
           properties: {
-            data: {
-              type: "object",
-              properties: signInResultProperties,
-            },
+            data: signInResultDescriptiveObject,
             meta: { type: "object" },
           },
         },
@@ -74,9 +71,7 @@ export const authRoutes: TRouteDefinition[] = [
     requestBody: {
       required: true,
       content: {
-        "application/json": {
-          schema: { type: "object", properties: refreshTokensDataProperties },
-        },
+        "application/json": refreshTokensDataDescriptiveObject,
       },
     },
     responses: {
@@ -85,10 +80,7 @@ export const authRoutes: TRouteDefinition[] = [
         {
           type: "object",
           properties: {
-            data: {
-              type: "object",
-              properties: refreshTokensResultProperties,
-            },
+            data: refreshTokensResultDescriptiveObject,
             meta: { type: "object" },
           },
         },

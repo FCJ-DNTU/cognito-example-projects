@@ -6,8 +6,8 @@ import cors from "cors";
 import { APP_CONSTANTS } from "../../utils/constants/app.js";
 
 // Import Swagger
-import { spec } from "./swagger";
-import { registerRoutes } from "./swagger/helpers.js";
+import { swaggerDoc } from "../../core/docs/swagger/index.js";
+import { registerRoutes } from "../../core/docs/swagger/helpers.js";
 
 // Import routes
 import { authRoutes } from "./routes/auth/index.js";
@@ -25,11 +25,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Register routes
-registerRoutes(app, authRoutes, spec);
-registerRoutes(app, pcustomersRoutes, spec);
+registerRoutes(app, authRoutes, swaggerDoc);
+registerRoutes(app, pcustomersRoutes, swaggerDoc);
 
 // Route swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(spec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use("/", (req, res) => {
   return res.json({

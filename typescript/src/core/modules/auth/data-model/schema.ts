@@ -3,7 +3,9 @@ import joi from "joi";
 // Import constants
 import { USERNAME_REGEX, PASSWORD_REGEX } from "../../../../utils/constants";
 
-export const signInValidator = joi.object({
+import { toDescriptiveObject } from "../../../validation/joi/helper";
+
+export const signInDataSchema = joi.object({
   username: joi.string().pattern(USERNAME_REGEX).required().messages({
     "string.pattern.base":
       "Username must be 3–30 characters long and only contain letters, numbers, dots (.), underscores (_) or hyphens (-).",
@@ -20,10 +22,47 @@ export const signInValidator = joi.object({
   }),
 });
 
-export const refreshTokensValidator = joi.object({
+export const refreshTokensDataSchema = joi.object({
   refreshToken: joi.string().required().messages({
     "string.base": "RefreshToken must be a string",
     "string.empty": "RefreshToken cannot be empty",
     "any.required": "RefreshToken is required",
   }),
 });
+
+export const signInDataDescriptiveObject =
+  toDescriptiveObject(signInDataSchema);
+
+export const signInResultDescriptiveObject = {
+  type: "object",
+  properties: {
+    auth: {
+      type: "object",
+      properties: {
+        idToken: { type: "string" },
+        accessToken: { type: "string" },
+        refreshToken: { type: "string" },
+        expiresIn: { type: "number" },
+      },
+    },
+  },
+};
+
+export const refreshTokensDataDescriptiveObject = toDescriptiveObject(
+  refreshTokensDataSchema,
+);
+
+export const refreshTokensResultDescriptiveObject = {
+  type: "object",
+  properties: {
+    auth: {
+      type: "object",
+      properties: {
+        idToken: { type: "string" },
+        accessToken: { type: "string" },
+        refreshToken: { type: "string" },
+        expiresIn: { type: "number" },
+      },
+    },
+  },
+};
