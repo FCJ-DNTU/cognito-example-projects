@@ -102,4 +102,5 @@ class Pipeline(Generic[TContext]):
 
         # Clear state
         del self._run_states[ctx_id]
+
         return current_result

@@ -133,7 +133,7 @@ class RuntimeContext(ABC):
         self,
         source: Union[IO[bytes], bytes, BytesIO],
         content_type: Optional[str] = None,
-    ) -> None:
+    ) -> Any:
         """
         Gửi lại Client bên ngoài runtime (requester) một Streaming Response.
 
@@ -144,7 +144,7 @@ class RuntimeContext(ABC):
         pass
 
     @abstractmethod
-    def send_json(self, data: Any, meta: Optional[Any] = None) -> None:
+    def send_json(self, data: Any, meta: Optional[Any] = None) -> Any:
         """
         Gửi lại Client bên ngoài runtime (requester) một JSON Response.
 
@@ -155,7 +155,7 @@ class RuntimeContext(ABC):
         pass
 
     @abstractmethod
-    def send_html(self, html_str: str) -> None:
+    def send_html(self, html_str: str) -> Any:
         """
         Gửi lại Client bên ngoài runtime (requester) một HTML Response.
 
@@ -165,7 +165,7 @@ class RuntimeContext(ABC):
         pass
 
     @abstractmethod
-    def send_error(self, error: Any) -> None:
+    def send_error(self, error: Any) -> Any:
         """
         Gửi lại Client bên ngoài runtime (requester) một Error Response theo chuẩn JSON.
 
@@ -175,9 +175,9 @@ class RuntimeContext(ABC):
         pass
 
     @abstractmethod
-    def next(self) -> Optional[None]:
+    def next(self, p: Any) -> Any:
         """
         Hàm next trong một số runtime.
         Mặc định trả về None, các subclass có thể override nếu cần.
         """
-        return None
+        pass

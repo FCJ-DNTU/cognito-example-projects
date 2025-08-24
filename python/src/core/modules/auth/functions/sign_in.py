@@ -1,5 +1,3 @@
-import boto3
-
 # Import from core
 from core.error.main import AppError, is_standard_error
 
@@ -8,7 +6,7 @@ from utils.aws_clients.main import get_cognito_idp_client
 from utils.configs import Configs
 
 
-def sign_in(ctx):
+async def sign_in(ctx):
     """
     Cho phép một người dùng đăng nhập vào trong hệ thống.
 
@@ -19,9 +17,13 @@ def sign_in(ctx):
         dict: chứa tokens hoặc AppError
     """
     try:
-        body = ctx.get_body()
+        body = await ctx.get_body()
         username = body.get("username")
         password = body.get("password")
+
+        print("Body:", body)
+        print("Path Params:", ctx.get_params())
+        print("Query:", ctx.get_query())
 
         client = get_cognito_idp_client()
 

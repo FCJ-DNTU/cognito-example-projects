@@ -10,7 +10,7 @@ class InternalContext:
     Ở trong core thì cũng có context của riêng nó, gọi là Internal Context.
     """
 
-    params: Dict[str, Any] = {}
+    params: Dict[str, Any] = field(default_factory=dict)
     """Tham số chính của hàm/module."""
 
     prev_result: Optional[Any] = None
@@ -19,5 +19,5 @@ class InternalContext:
     runtime_ctx: Optional[RuntimeContext] = None
     """Context từ runtime."""
 
-    options: Dict[str, Any] = field(default_factory={"can_catch_error": False})
+    options: Dict[str, Any] = field(default_factory=lambda: {"can_catch_error": False})
     """Một số các tham số thêm cho hàm/module để xử lý."""

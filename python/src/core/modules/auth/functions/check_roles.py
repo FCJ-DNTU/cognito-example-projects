@@ -3,7 +3,7 @@ from typing import Any, Callable, List
 from core.error.ClientError import ClientError
 from core.context.pipeline.main import Pipeline
 from core.context.runtime_context.RuntimeContext import RuntimeContext
-from helpers.get_info_from_claims import get_info_from_claims
+from core.modules.auth.helpers import get_info_from_claims
 
 
 def create_roles_check_step_executor(
