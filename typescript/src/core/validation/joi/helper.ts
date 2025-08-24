@@ -36,6 +36,10 @@ export function createValidationStepExecutor(
 
       return ctx.sendError(err);
     }
+
+    ctx.setBody(validated.value);
+
+    return validated;
   };
 }
 
