@@ -12,7 +12,7 @@ import { refreshTokensPipeline } from "../../../../core/modules/auth/ports";
 
 // Import from runtime
 import { jsonResponse } from "../../../../core/docs/swagger/helpers";
-import { createContext } from "../../adapters/context";
+import { ExpressRuntimeContext } from "../../adapters/context";
 
 // Import types
 import type { TRouteDefinition } from "../../../../core/docs/swagger/type";
@@ -23,7 +23,7 @@ export const authRoutes: TRouteDefinition[] = [
     method: "post",
     path: "/auth/sign-in",
     handler: async (req, res, next) => {
-      const ctx = createContext(req, res, next);
+      const ctx = new ExpressRuntimeContext(req, res, next);
       return await signInPipeline.run(ctx);
     },
     summary: "Cho phép thực hiện đăng nhập.",
@@ -59,7 +59,7 @@ export const authRoutes: TRouteDefinition[] = [
     method: "post",
     path: "/auth/refresh-tokens",
     handler: async (req, res, next) => {
-      const ctx = createContext(req, res, next);
+      const ctx = new ExpressRuntimeContext(req, res, next);
       return await refreshTokensPipeline.run(ctx);
     },
     summary: "Cho phép làm mới lại các tokens.",

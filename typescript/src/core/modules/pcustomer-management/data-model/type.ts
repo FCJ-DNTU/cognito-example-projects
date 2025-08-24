@@ -1,4 +1,4 @@
-import type { TInternalContext } from "../../../context/internal-context";
+import type { InternalContext } from "../../../context/internal-context";
 
 export type TPCustomer = {
   id: string;
@@ -44,7 +44,7 @@ export interface IPCustomerDAO {
    * @returns
    */
   listPCustomers(
-    ctx: TInternalContext<Partial<TFindPCustomerParams>>,
+    ctx: InternalContext<Partial<TFindPCustomerParams>>,
   ): Promise<TFindPCustomerResult | undefined>;
 
   /**
@@ -55,7 +55,7 @@ export interface IPCustomerDAO {
    * @returns
    */
   getPCustomer(
-    ctx: TInternalContext<Partial<TFindPCustomerParams>>,
+    ctx: InternalContext<Partial<TFindPCustomerParams>>,
   ): Promise<TPCustomer | undefined>;
 
   /**
@@ -66,7 +66,7 @@ export interface IPCustomerDAO {
    * @returns
    */
   insertPCustomer(
-    ctx: TInternalContext<Partial<TPCustomer>>,
+    ctx: InternalContext<Partial<TPCustomer>>,
   ): Promise<TPCustomer | undefined>;
 
   /**
@@ -77,7 +77,7 @@ export interface IPCustomerDAO {
    * @returns
    */
   updatePCustomer(
-    ctx: TInternalContext<Partial<TPCustomer>>,
+    ctx: InternalContext<Partial<TPCustomer>>,
   ): Promise<Partial<TPCustomer> | undefined>;
 
   /**
@@ -87,5 +87,5 @@ export interface IPCustomerDAO {
    *
    * @returns
    */
-  deletePCustomer(ctx: TInternalContext<TDeletePCustomerParams>): Promise<any>;
+  deletePCustomer(ctx: InternalContext<TDeletePCustomerParams>): Promise<any>;
 }

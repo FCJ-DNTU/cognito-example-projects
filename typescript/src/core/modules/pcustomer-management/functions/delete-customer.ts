@@ -3,8 +3,8 @@ import { PCustomerDAO } from "../data-model/dao";
 import { initializeInternalContext } from "../../../context/internal-context";
 
 // Import types
-import type { TRuntimeContext } from "../../../context/runtime-context";
-import type { TInternalContext } from "../../../context/internal-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
+import type { InternalContext } from "../../../context/internal-context";
 import type { TDeletePCustomerParams } from "../data-model/type";
 
 /**
@@ -14,13 +14,13 @@ import type { TDeletePCustomerParams } from "../data-model/type";
  *
  * @returns
  */
-export async function deleteCustomer(ctx: TRuntimeContext) {
+export async function deleteCustomer(ctx: RuntimeContext) {
   try {
     const params = await ctx.getParams<{ id: string }>();
 
     const pcustomerDao = new PCustomerDAO();
     const internalCtx =
-      initializeInternalContext() as TInternalContext<TDeletePCustomerParams>;
+      initializeInternalContext() as InternalContext<TDeletePCustomerParams>;
 
     internalCtx.params = {
       query: {

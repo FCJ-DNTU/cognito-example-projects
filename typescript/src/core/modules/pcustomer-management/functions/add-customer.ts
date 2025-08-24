@@ -3,8 +3,8 @@ import { PCustomerDAO } from "../data-model/dao";
 import { initializeInternalContext } from "../../../context/internal-context";
 
 // Import types
-import type { TRuntimeContext } from "../../../context/runtime-context";
-import type { TInternalContext } from "../../../context/internal-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
+import type { InternalContext } from "../../../context/internal-context";
 import type { TPCustomer } from "../data-model/type";
 
 /**
@@ -14,12 +14,12 @@ import type { TPCustomer } from "../data-model/type";
  *
  * @returns
  */
-export async function addCustomer(ctx: TRuntimeContext) {
+export async function addCustomer(ctx: RuntimeContext) {
   try {
     const body = await ctx.getBody<Partial<TPCustomer>>();
 
     const pcustomerDao = new PCustomerDAO();
-    const internalCtx = initializeInternalContext() as TInternalContext<
+    const internalCtx = initializeInternalContext() as InternalContext<
       Partial<TPCustomer>
     >;
 

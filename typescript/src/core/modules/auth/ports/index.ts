@@ -15,10 +15,10 @@ import {
 import { createValidationStepExecutor } from "../../../validation/joi/helper";
 
 // Import types
-import type { TRuntimeContext } from "../../../context/runtime-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
 
-const signInPipeline = new Pipeline<TRuntimeContext>("Sign In Pipeline");
-const refreshTokensPipeline = new Pipeline<TRuntimeContext>(
+const signInPipeline = new Pipeline<RuntimeContext>("Sign In Pipeline");
+const refreshTokensPipeline = new Pipeline<RuntimeContext>(
   "Refresh Tokens Pipeline",
 );
 

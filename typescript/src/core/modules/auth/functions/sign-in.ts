@@ -11,7 +11,7 @@ import { getCognitoIDProviderClient } from "../../../../utils/aws-clients";
 
 // Import types
 import type { InitiateAuthCommandInput } from "@aws-sdk/client-cognito-identity-provider";
-import type { TRuntimeContext } from "../../../context/runtime-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
 
 /**
  * Cho phép một người dùng đăng nhập vào trong hệ thống.
@@ -20,7 +20,7 @@ import type { TRuntimeContext } from "../../../context/runtime-context";
  *
  * @returns
  */
-export async function signIn(ctx: TRuntimeContext) {
+export async function signIn(ctx: RuntimeContext) {
   try {
     const body = await ctx.getBody<{ username: string; password: string }>();
 

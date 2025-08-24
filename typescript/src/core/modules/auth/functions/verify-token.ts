@@ -15,7 +15,7 @@ import { getPublicKeys } from "../helpers/get-public-keys.js";
 
 // Import types
 import type { JwtPayload } from "jsonwebtoken";
-import type { TRuntimeContext } from "../../../context/runtime-context/type.js";
+import type { RuntimeContext } from "../../../context/runtime-context";
 import type { Pipeline } from "../../../context/pipeline/index.js";
 
 const { JWK } = jose;
@@ -29,7 +29,7 @@ const appClientId = Configs.CognitoAppClientId;
  *
  * @returns
  */
-export async function verifyToken(ctx: TRuntimeContext) {
+export async function verifyToken(ctx: RuntimeContext) {
   try {
     // Setup context before go further
     const internalCtx = initializeInternalContext();
@@ -112,7 +112,7 @@ export async function verifyToken(ctx: TRuntimeContext) {
  * @returns
  */
 export function createVerifyTokenStepExecutor(pipeline: Pipeline<any>) {
-  return async function (ctx: TRuntimeContext) {
+  return async function (ctx: RuntimeContext) {
     const result = await verifyToken(ctx);
 
     if (isStandardError(result)) {

@@ -2,7 +2,7 @@
 import { AppError, ClientError, isStandardError } from "../../../error";
 
 // Import types
-import type { TInternalContext } from "../../../context/internal-context";
+import type { InternalContext } from "../../../context/internal-context";
 
 /**
  * Lấy token từ trong headers. Mặc định sẽ lấy Bearer token.
@@ -12,7 +12,7 @@ import type { TInternalContext } from "../../../context/internal-context";
  * @returns
  */
 export function getAuthorizationToken(
-  ctx: TInternalContext,
+  ctx: InternalContext,
 ): string | undefined {
   try {
     const headers = (ctx.params as any).headers;

@@ -1,106 +1,103 @@
 import { Readable } from "stream";
 
+// Import from core
 import { AppError } from "../../../core/error/AppError";
-import { initializeRuntimeContext } from "../../../core/context/runtime-context";
+import { RuntimeContext } from "../../../core/context/runtime-context";
 
 // Import types
 import type { Request, Response, NextFunction } from "express";
-import type { TRuntimeContext } from "../../../core/context/runtime-context";
+import { ClientError } from "../../../core/error";
 
 /**
- * Tạo Express Runtime từ Runtime Context rỗng.
- *
- * @param req
- * @param res
- * @param next
- *
- * @returns
+ * Xác định Runtime cho Express, bao gồm các hàm, thuộc tính.
  */
-export function createContext(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): TRuntimeContext {
-  const ctx = initializeRuntimeContext();
+export class ExpressRuntimeContext extends RuntimeContext {
+  private _req: Request;
+  private _res: Response;
+  private _next: NextFunction;
 
-  ctx["runtime"] = "express";
+  constructor(req: Request, res: Response, next: NextFunction) {
+    super();
+    this.runtime = "express";
 
-  ctx["getBody"] = async function <T = typeof req.body>() {
-    return req.body as Promise<T>;
-  };
+    this._req = req;
+    this._res = res;
+    this._next = next;
+  }
 
-  ctx["getQuery"] = async function <T = typeof req.query>() {
-    return req.query as unknown as Promise<T>;
-  };
+  async getBody<T = any>() {
+    return this._req.body as Promise<T>;
+  }
 
-  ctx["getParams"] = async function <T = typeof req.params>() {
-    return req.params as unknown as Promise<T>;
-  };
+  async getQuery<T = any>() {
+    return this._req.query as unknown as Promise<T>;
+  }
 
-  ctx["getHeaders"] = async function <T = typeof req.headers>() {
-    return req.headers as unknown as Promise<T>;
-  };
+  async getParams<T = any>() {
+    return this._req.params as unknown as Promise<T>;
+  }
 
-  ctx["getTempData"] = async function <T = any>(key: string) {
-    return res.locals[key] as unknown as Promise<T>;
-  };
+  async getHeaders<T = any>() {
+    return this._req.headers as unknown as Promise<T>;
+  }
 
-  ctx["setBody"] = function (update) {
+  async getTempData<T = any>(key: string) {
+    return this._res.locals[key] as unknown as Promise<T>;
+  }
+
+  setBody(update: any | ((oldBody?: any) => any)) {
     if (typeof update === "function") {
-      req.body = update(req.body);
+      this._req.body = update(this._req.body);
     }
 
-    req.body = update;
-  };
+    this._req.body = update;
+  }
 
-  ctx["addTempData"] = function <T = any>(key: string, data: T) {
-    res.locals[key] = data;
-  };
+  addTempData<T = any>(key: string, data: T) {
+    this._res.locals[key] = data;
+  }
 
-  ctx["setHTTPStatus"] = function (status) {
-    res.status(status);
-  };
+  setHTTPStatus(status: number) {
+    this._res.status(status);
+  }
 
-  ctx["sendJson"] = function (data, meta) {
-    return res.json({ data, meta });
-  };
+  sendJson(data: any, meta: any) {
+    return this._res.json({ data, meta });
+  }
 
-  ctx["sendHTML"] = function (htmlStr) {
-    return res.send(htmlStr);
-  };
+  sendHTML(htmlStr: string) {
+    return this._res.send(htmlStr);
+  }
 
-  ctx["sendError"] = function (error) {
-    return res.status(error.statusCode).json({ error: error.toPlain() });
-  };
+  sendError(error: AppError | ClientError) {
+    return this._res.status(error.statusCode).json({ error: error.toPlain() });
+  }
 
-  ctx["sendStreaming"] = function (
-    source,
-    contentType = "application/octet-stream",
-  ) {
-    res.setHeader("Content-Type", contentType);
-    res.setHeader("Transfer-Encoding", "chunked");
+  sendStreaming(source: any, contentType = "application/octet-stream") {
+    this._res.setHeader("Content-Type", contentType);
+    this._res.setHeader("Transfer-Encoding", "chunked");
 
     if (Buffer.isBuffer(source)) {
       const stream = Readable.from(source);
-      stream.pipe(res);
+      stream.pipe(this._res);
 
       stream.on("error", (err) => {
         const error = new AppError(err.message);
-        res.status(500).json({ error: error.toPlain() });
+        this._res.status(500).json({ error: error.toPlain() });
       });
     } else if (typeof (source as Readable).pipe === "function") {
-      source.pipe(res);
+      source.pipe(this._res);
 
-      source.on("error", (err) => {
+      source.on("error", (err: any) => {
         const error = new AppError(err.message);
-        res.status(500).json({ error: error.toPlain() });
+        this._res.status(500).json({ error: error.toPlain() });
       });
     } else {
-      res.status(500).end("Invalid stream source");
+      this._res.status(500).end("Invalid stream source");
     }
-  };
+  }
 
-  ctx["next"] = next;
-
-  return ctx as TRuntimeContext;
+  next(p: Parameters<NextFunction>) {
+    this._next(p);
+  }
 }

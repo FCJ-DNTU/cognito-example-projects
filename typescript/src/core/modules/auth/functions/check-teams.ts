@@ -6,7 +6,7 @@ import { getInfoFromClaims } from "../helpers/get-info-from-claims";
 
 // Import types
 import type { Pipeline } from "../../../context/pipeline";
-import type { TRuntimeContext } from "../../../context/runtime-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
 
 /**
  * Tạo một Step Executor mới để kiểm tra team người dùng.
@@ -20,7 +20,7 @@ export function createTeamsCheckStepExecutor(
   pipeline: Pipeline<any>,
   allowedTeams: Array<string>,
 ) {
-  return async function (ctx: TRuntimeContext) {
+  return async function (ctx: RuntimeContext) {
     if (allowedTeams[0] === "*") {
       return;
     }

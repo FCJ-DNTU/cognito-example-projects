@@ -1,18 +1,12 @@
-import type { TInternalContext } from "./type";
+import { InternalContext } from "./InternalContext";
 
 /**
  * Khởi tạo Internal Context cho hàm hoặc các module trong core.
  *
- * @returns
+ *@returns
  */
-export function initializeInternalContext(): TInternalContext {
-  return {
-    params: {},
-    runtimeCtx: undefined,
-    options: {
-      canCatchError: false,
-    },
-  };
+export function initializeInternalContext(): InternalContext {
+  return new InternalContext();
 }
 
-export * from "./type";
+export * from "./InternalContext";

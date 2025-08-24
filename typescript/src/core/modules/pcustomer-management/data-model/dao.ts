@@ -30,7 +30,7 @@ import type {
   DeleteItemCommandInput,
   QueryOutput,
 } from "@aws-sdk/client-dynamodb";
-import type { TInternalContext } from "../../../context/internal-context";
+import type { InternalContext } from "../../../context/internal-context";
 import type {
   IPCustomerDAO,
   TFindPCustomerParams,
@@ -51,7 +51,7 @@ export class PCustomerDAO implements IPCustomerDAO {
    *
    * @param ctx - internal context.
    */
-  private _checkMethodParams(ctx: TInternalContext) {
+  private _checkMethodParams(ctx: InternalContext) {
     const { params } = ctx;
 
     checkExistanceOrThrowError(
@@ -68,7 +68,7 @@ export class PCustomerDAO implements IPCustomerDAO {
    *
    * @returns
    */
-  private _checkQueryMethodParams(ctx: TInternalContext) {
+  private _checkQueryMethodParams(ctx: InternalContext) {
     const { params } = ctx;
 
     checkExistanceOrThrowError(
@@ -90,7 +90,7 @@ export class PCustomerDAO implements IPCustomerDAO {
    * @returns
    */
   private _createBaseQueryCommandInput(
-    ctx: TInternalContext<Partial<TFindPCustomerParams>>,
+    ctx: InternalContext<Partial<TFindPCustomerParams>>,
   ) {
     const { indexName, staryKey, limit = "10" } = ctx.params;
 
@@ -119,7 +119,7 @@ export class PCustomerDAO implements IPCustomerDAO {
    * @returns
    */
   private _createBasePutItemCommandInput(
-    ctx: TInternalContext<Partial<TPCustomer>>,
+    ctx: InternalContext<Partial<TPCustomer>>,
   ) {
     const currDate = new Date();
 
@@ -144,7 +144,7 @@ export class PCustomerDAO implements IPCustomerDAO {
    * @returns
    */
   private _createBaseUpdateItemCommandInput(
-    ctx: TInternalContext<Partial<TPCustomer>>,
+    ctx: InternalContext<Partial<TPCustomer>>,
   ) {
     let { id, ...updatableData } = ctx.params;
     let { setExpression, expressionAttrValues } =
@@ -172,7 +172,7 @@ export class PCustomerDAO implements IPCustomerDAO {
    *
    * @returns
    */
-  private _createBaseDeleteItemCommandInput(ctx: TInternalContext) {
+  private _createBaseDeleteItemCommandInput(ctx: InternalContext) {
     const { query } = ctx.params as any;
 
     const input: DeleteItemCommandInput = {
@@ -206,7 +206,7 @@ export class PCustomerDAO implements IPCustomerDAO {
   }
 
   async listPCustomers(
-    ctx: TInternalContext<Partial<TFindPCustomerParams>>,
+    ctx: InternalContext<Partial<TFindPCustomerParams>>,
   ): Promise<TFindPCustomerResult | undefined> {
     try {
       this._checkMethodParams(ctx);
@@ -244,7 +244,7 @@ export class PCustomerDAO implements IPCustomerDAO {
   }
 
   async getPCustomer(
-    ctx: TInternalContext<Partial<TFindPCustomerParams>>,
+    ctx: InternalContext<Partial<TFindPCustomerParams>>,
   ): Promise<TPCustomer | undefined> {
     try {
       this._checkQueryMethodParams(ctx);
@@ -285,7 +285,7 @@ export class PCustomerDAO implements IPCustomerDAO {
   }
 
   async insertPCustomer(
-    ctx: TInternalContext<Partial<TPCustomer>>,
+    ctx: InternalContext<Partial<TPCustomer>>,
   ): Promise<TPCustomer | undefined> {
     try {
       this._checkMethodParams(ctx);
@@ -312,7 +312,7 @@ export class PCustomerDAO implements IPCustomerDAO {
   }
 
   async updatePCustomer(
-    ctx: TInternalContext<Partial<TPCustomer>>,
+    ctx: InternalContext<Partial<TPCustomer>>,
   ): Promise<TPCustomer | undefined> {
     try {
       this._checkMethodParams(ctx);
@@ -343,7 +343,7 @@ export class PCustomerDAO implements IPCustomerDAO {
   }
 
   async deletePCustomer(
-    ctx: TInternalContext<TDeletePCustomerParams>,
+    ctx: InternalContext<TDeletePCustomerParams>,
   ): Promise<boolean> {
     try {
       this._checkQueryMethodParams(ctx);

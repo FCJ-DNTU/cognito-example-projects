@@ -11,7 +11,7 @@ import { getCognitoIDProviderClient } from "../../../../utils/aws-clients";
 
 // Import types
 import type { GetTokensFromRefreshTokenCommandInput } from "@aws-sdk/client-cognito-identity-provider";
-import type { TRuntimeContext } from "../../../context/runtime-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
 
 /**
  * Cho phép người dùng có thể làm mới lại các tokens.
@@ -20,7 +20,7 @@ import type { TRuntimeContext } from "../../../context/runtime-context";
  *
  * @returns
  */
-export async function refreshTokens(ctx: TRuntimeContext) {
+export async function refreshTokens(ctx: RuntimeContext) {
   try {
     const body = await ctx.getBody<{ refreshToken: string }>();
 

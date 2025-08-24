@@ -1,8 +1,8 @@
 import { Step } from "./Step";
 
 // Import types
-import type { TRuntimeContext } from "../runtime-context";
-import type { TInternalContext } from "../internal-context";
+import type { RuntimeContext } from "../runtime-context";
+import type { InternalContext } from "../internal-context";
 import type { TStepExecutor } from "./Step";
 import type { TPipelineRunState } from "./type";
 
@@ -14,7 +14,7 @@ import type { TPipelineRunState } from "./type";
  * thì kết quả đó sẽ được hiểu là params cho step tiếp theo.
  * Chính vì thế, khi sử dụng pipeline trong core thì mình phải lưu ý.
  */
-export class Pipeline<TContext = TRuntimeContext | TInternalContext> {
+export class Pipeline<TContext = RuntimeContext | InternalContext> {
   public name: string;
 
   private _steps: Array<Step<TContext, unknown>>;

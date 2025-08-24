@@ -3,8 +3,8 @@ import { PCustomerDAO } from "../data-model/dao";
 import { initializeInternalContext } from "../../../context/internal-context";
 
 // Import types
-import type { TRuntimeContext } from "../../../context/runtime-context";
-import type { TInternalContext } from "../../../context/internal-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
+import type { InternalContext } from "../../../context/internal-context";
 import type { TFindPCustomerParams } from "../data-model/type";
 
 /**
@@ -12,13 +12,13 @@ import type { TFindPCustomerParams } from "../data-model/type";
  *
  * @param ctx - runtime context
  */
-export async function getCustomer(ctx: TRuntimeContext) {
+export async function getCustomer(ctx: RuntimeContext) {
   try {
     const params = await ctx.getParams<{ id: string }>();
 
     const pcustomerDao = new PCustomerDAO();
     const internalCtx =
-      initializeInternalContext() as TInternalContext<TFindPCustomerParams>;
+      initializeInternalContext() as InternalContext<TFindPCustomerParams>;
 
     internalCtx.params = {
       query: { id: params.id },

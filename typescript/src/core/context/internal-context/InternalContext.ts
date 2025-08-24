@@ -1,26 +1,23 @@
-import type { TRuntimeContext } from "../runtime-context";
+import type { RuntimeContext } from "../runtime-context/RuntimeContext";
 
 /**
- * Ở trong core thì cũng có context của riêng nó, gọi là Internal Context.
+ * Lớp đại diện cho internal context.
  */
-export type TInternalContext<
-  TParams = unknown,
-  TExtOptions extends Record<string, any> = {},
-> = {
+export class InternalContext<TParams = unknown> {
   /**
    * Tham số chính của hàm/module.
    */
-  params: TParams;
+  public params: Partial<TParams> & Record<string, any>;
 
   /**
    * Kết quả của lần thực thi trước nếu đang ở trong pipeline.
    */
-  prevResult?: any;
+  public prevResult?: any;
 
   /**
    * Context từ runtime.
    */
-  runtimeCtx?: Partial<TRuntimeContext>;
+  public runtimeCtx?: RuntimeContext;
 
   /**
    * Một số các tham số thêm cho hàm/module để xử lý.
@@ -32,5 +29,13 @@ export type TInternalContext<
      * hoặc [] hoặc bất cứ giá trị nào. Mặc định là `true`.
      */
     canCatchError: boolean;
-  } & TExtOptions;
-};
+  } & Record<string, any>;
+
+  constructor() {
+    this.params = {};
+    this.runtimeCtx = undefined;
+    this.options = {
+      canCatchError: false,
+    };
+  }
+}

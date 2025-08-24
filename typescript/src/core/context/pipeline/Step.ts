@@ -26,8 +26,8 @@ export class Step<TContext = unknown, TResult = unknown> {
   /**
    * Thực thi executor của một Step
    *
-   * @param ctx - ngữ cảnh thực thi, có thể là runtime (TRuntimeContext)
-   * hoặc trong core (TInternalContext)
+   * @param ctx - ngữ cảnh thực thi, có thể là runtime (RuntimeContext)
+   * hoặc trong core (InternalContext)
    */
   execute(ctx: TContext) {
     if (!this._executor) throw new Error("Executor of Step is not set");

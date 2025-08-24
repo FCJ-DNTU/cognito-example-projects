@@ -4,7 +4,7 @@ import { ClientError } from "../../error";
 // Import types
 import type { ObjectSchema } from "joi";
 import type { Pipeline } from "../../context/pipeline";
-import type { TRuntimeContext } from "../../context/runtime-context";
+import type { RuntimeContext } from "../../context/runtime-context";
 
 /**
  * Tạo executor cho bước xác minh dữ liệu trong pipeline.
@@ -18,7 +18,7 @@ export function createValidationStepExecutor(
   pipeline: Pipeline<any>,
   schema: ObjectSchema,
 ) {
-  return async function (ctx: TRuntimeContext) {
+  return async function (ctx: RuntimeContext) {
     const body = await ctx.getBody();
     const validated = schema.validate(body);
 

@@ -25,21 +25,21 @@ import {
 } from "../validator";
 
 // Import types
-import type { TRuntimeContext } from "../../../context/runtime-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
 
-const getCustomerPipeline = new Pipeline<TRuntimeContext>(
+const getCustomerPipeline = new Pipeline<RuntimeContext>(
   "Get Customer Pipeline",
 );
-const getCustomersPipeline = new Pipeline<TRuntimeContext>(
+const getCustomersPipeline = new Pipeline<RuntimeContext>(
   "Get Customers Pipeline",
 );
-const addCustomerPipeline = new Pipeline<TRuntimeContext>(
+const addCustomerPipeline = new Pipeline<RuntimeContext>(
   "Add Customer Pipeline",
 );
-const updateCustomerPipeline = new Pipeline<TRuntimeContext>(
+const updateCustomerPipeline = new Pipeline<RuntimeContext>(
   "Update Customer Pipeline",
 );
-const deleteCustomerPipeline = new Pipeline<TRuntimeContext>(
+const deleteCustomerPipeline = new Pipeline<RuntimeContext>(
   "Delete Customer Pipeline",
 );
 

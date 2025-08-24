@@ -18,7 +18,7 @@ import {
 
 // Import from runtime
 import { jsonResponse } from "../../../../core/docs/swagger/helpers";
-import { createContext } from "../../adapters/context";
+import { ExpressRuntimeContext } from "../../adapters/context";
 
 // Import types
 import type { TRouteDefinition } from "../../../../core/docs/swagger/type";
@@ -29,7 +29,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     method: "get",
     path: "/pcustomers",
     handler: async (req, res, next) => {
-      const ctx = createContext(req, res, next);
+      const ctx = new ExpressRuntimeContext(req, res, next);
       return await getCustomersPipeline.run(ctx);
     },
     summary: "Lấy các khách hàng tiềm năng.",
@@ -73,7 +73,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     method: "get",
     path: "/pcustomers/:id",
     handler: async (req, res, next) => {
-      const ctx = createContext(req, res, next);
+      const ctx = new ExpressRuntimeContext(req, res, next);
       return await getCustomerPipeline.run(ctx);
     },
     summary: "Lấy thông tin của một khách hàng tiềm năng.",
@@ -109,7 +109,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     method: "post",
     path: "/pcustomer",
     handler: async (req, res, next) => {
-      const ctx = createContext(req, res, next);
+      const ctx = new ExpressRuntimeContext(req, res, next);
       return await addCustomerPipeline.run(ctx);
     },
     summary: "Thêm thông tin khách hàng tiềm năng.",
@@ -144,7 +144,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     method: "patch",
     path: "/pcustomers/:id",
     handler: async (req, res, next) => {
-      const ctx = createContext(req, res, next);
+      const ctx = new ExpressRuntimeContext(req, res, next);
       return await updateCustomerPipeline.run(ctx);
     },
     summary: "Chỉnh sửa thông tin của một khách hàng tiềm năng.",
@@ -189,7 +189,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
     method: "delete",
     path: "/pcustomers/:id",
     handler: async (req, res, next) => {
-      const ctx = createContext(req, res, next);
+      const ctx = new ExpressRuntimeContext(req, res, next);
       return await deleteCustomerPipeline.run(ctx);
     },
     summary: "Xoá thông tin của một khách hàng tiềm năng.",

@@ -5,7 +5,7 @@ import { getInfoFromClaims } from "../helpers/get-info-from-claims";
 
 // Import types
 import type { Pipeline } from "../../../context/pipeline";
-import type { TRuntimeContext } from "../../../context/runtime-context";
+import type { RuntimeContext } from "../../../context/runtime-context";
 
 /**
  * Tạo một Step Executor mới để kiểm tra role người dùng.
@@ -19,7 +19,7 @@ export function createRolesCheckStepExecutor(
   pipeline: Pipeline<any>,
   allowedRoles: Array<string>,
 ) {
-  return async function (ctx: TRuntimeContext) {
+  return async function (ctx: RuntimeContext) {
     if (allowedRoles[0] === "*") {
       return;
     }
