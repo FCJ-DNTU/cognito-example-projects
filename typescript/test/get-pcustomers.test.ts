@@ -1,5 +1,8 @@
 // test/pcustomers.test.ts
 import { expect } from "chai";
+import dotenv from "dotenv";
+
+dotenv.config({ path: "../.env" });
 
 // Import from core
 import { AppError } from "../src/core/error";

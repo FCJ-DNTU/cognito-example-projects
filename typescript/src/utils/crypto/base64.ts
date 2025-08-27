@@ -27,7 +27,7 @@ export function decode(encoded: string): Encodable {
   const data = JSON.parse(jsonStr);
 
   if (typeof data === "object" && Array.isArray(data.items)) {
-    return data.items as JsonValue[];
+    return data as JsonValue[];
   }
 
   return data;
@@ -58,7 +58,7 @@ export function urlSafeDecode(encoded: string): Encodable {
   const data = JSON.parse(jsonStr);
 
   if (typeof data === "object" && Array.isArray(data.items)) {
-    return data.items as JsonValue[];
+    return data as JsonValue[];
   }
 
   return data;

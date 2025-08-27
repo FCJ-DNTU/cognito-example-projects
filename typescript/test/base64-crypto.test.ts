@@ -39,7 +39,7 @@ describe("Crypto Base64 - Unit Test", () => {
     const tupleLike = { items: [1, 2, 3] };
     const encoded = encode(tupleLike);
     const decoded = decode(encoded);
-    expect(decoded).to.deep.equal([1, 2, 3]);
+    expect(decoded).to.deep.equal({ items: [1, 2, 3] });
   });
 
   it("should urlSafeEncode and urlSafeDecode properly", () => {
@@ -57,6 +57,6 @@ describe("Crypto Base64 - Unit Test", () => {
     const tupleLike = { items: ["x", "y"] };
     const encoded = urlSafeEncode(tupleLike);
     const decoded = urlSafeDecode(encoded);
-    expect(decoded).to.deep.equal(["x", "y"]);
+    expect(decoded).to.deep.equal({ items: ["x", "y"] });
   });
 });

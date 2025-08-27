@@ -33,8 +33,7 @@ Tuy là các ngôn ngữ khác nhau, môi trường phát triển khác nhau, nh
 │   │   │   ├── AppError
 │   │   │   └── ClientError
 │   │   ├── modules/
-│   │   │   ├── base_validator/
-│   │   │   ├── authoizer/
+│   │   │   ├── auth/
 │   │   │   └── pcustomer-management/
 │   │   └── adapters/
 │   ├── runtimes/

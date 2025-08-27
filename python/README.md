@@ -70,3 +70,50 @@ Successfully installed MarkupSafe-3.0.2 PyJWT-2.10.1 annotated-types-0.7.0 anyio
 ```
 
 ### Run Application
+
+Để có thể chạy application, thì đầu tiên bạn sẽ cần phải cd vào trong thư mục `python/src/runtimes/fastapi` (nhớ là đã kích hoạt môi trường ảo và cài các thư viện cần thiết rồi nhé). Sau đó dùng lệnh để start server.
+
+```bash
+python app.py
+```
+
+Kết quả sẽ như thế này:
+
+```
+INFO:     Will watch for changes in these directories: ['/home/tuna/fcj-dntu/cognito-example-projects/python/src/runtimes/fastapi']
+INFO:     Uvicorn running on http://localhost:7800 (Press CTRL+C to quit)
+INFO:     Started reloader process [11984] using WatchFiles
+INFO:     Started server process [11986]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+```
+
+Truy vập vào đường dẫn `http://localhost:7800/dócs` là bạn có thể thấy được giao diện swagger.
+
+## Testing
+
+Để thực hiện kiểm thử thì làm đơn giản thôi, đầu tiên là bạn phải cd vào trong thư mục `python/test`.
+
+```bash
+cd python/test
+```
+
+Sau đó là chạy thử một script test nào đó và xem kết quả ! Ví dụ như mình chạy thử script test encode / decode base64 để xem kết quả nó trông như thế nào nhé.
+
+```bash
+python base64_crypto.test.py
+```
+
+Kết quả:
+
+```
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+OK
+```
+
+> Note: còn một script nữa dùng để test function get_pcustomers, bạn có thể xem qua để hiểu và chạy thử để xem kết quả.
+
+> Note: Để cho nhanh và hiệu quả, thì bạn nên dùng GenAI để tạo các file test và nhớ chỉnh lại cho hợp lý. Các file test mình cũng tạo bằng AI.
