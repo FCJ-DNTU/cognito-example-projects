@@ -18,7 +18,7 @@ export type TFindPCustomerParams = {
   query?: TFindPCustomerQuery;
   indexName?: string;
   limit?: string;
-  staryKey?: string;
+  startKey?: string;
 };
 
 export type TFindPCustomerResult = {

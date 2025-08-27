@@ -1,6 +1,7 @@
 // Import properties from core
 import {
   pcustomerDescriptiveObject,
+  pcustomersDescriptiveObject,
   createPCustomerSchema,
   createPCustomerDescriptiveObject,
   updatePCustomerSchema,
@@ -61,7 +62,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
         {
           type: "object",
           properties: {
-            data: pcustomerDescriptiveObject,
+            data: pcustomersDescriptiveObject,
             meta: { type: "object" },
           },
         },
@@ -216,7 +217,7 @@ export const pcustomersRoutes: TRouteDefinition[] = [
             data: { type: "boolean" },
           },
         },
-        "Thông tin của khách hàng tiềm năng.",
+        "",
       ),
     },
   },

@@ -83,6 +83,22 @@ export const pcustomerDescriptiveObject = {
   },
 };
 
+export const pcustomersDescriptiveObject = {
+  type: "array",
+  items: {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+      fullName: { type: "string" },
+      phone: { type: "string" },
+      age: { type: "number" },
+      type: { type: "string" },
+      productCode: { type: "string" },
+      createAt: { type: "string", format: "date-time" },
+    },
+  },
+};
+
 export const createPCustomerDescriptiveObject = toDescriptiveObject(
   createPCustomerSchema,
 );

@@ -92,7 +92,7 @@ export class PCustomerDAO implements IPCustomerDAO {
   private _createBaseQueryCommandInput(
     ctx: InternalContext<Partial<TFindPCustomerParams>>,
   ) {
-    const { indexName, staryKey, limit = "10" } = ctx.params;
+    const { indexName, startKey, limit = "10" } = ctx.params;
 
     const input: QueryCommandInput = {
       TableName: Configs.DynamoDBTableNamePCustomers,
@@ -100,8 +100,8 @@ export class PCustomerDAO implements IPCustomerDAO {
       Limit: parseInt(limit),
     };
 
-    if (staryKey) {
-      input["ExclusiveStartKey"] = urlSafeDecode(staryKey) as any;
+    if (startKey) {
+      input["ExclusiveStartKey"] = urlSafeDecode(startKey) as any;
     }
 
     if (indexName) {
