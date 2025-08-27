@@ -16,7 +16,7 @@ Xin chào, đây là repo chứa các mã nguồn của ứng dụng được s�
 
 ## Introduction
 
-Trong phần mã nguồn này thì mình sẽ dùng 3 ngôn ngữ khác nhau để triển khai ứng dụng trong bài workshop, bao gồm: Typescript (Javascript), Python và Java, nhằm để nhấn mạnh tính khả thi cũng như là khả năng triển khai Authentication & Authorization với nhiều ngôn ngữ khác nhau của chiến lược mà mình đưa ra, với sự hỗ trợ từ AWS SDK. Thế nên, để có thể thực hành được bài này thì các bạn nên biết cơ bản về lập trình, cấu hình mã nguồn cũng như là thao tác với CLI.
+Trong phần mã nguồn này thì mình sẽ dùng 3 ngôn ngữ khác nhau để triển khai ứng dụng trong bài workshop, bao gồm: Typescript (Javascript) và Python, nhằm để nhấn mạnh tính khả thi cũng như là khả năng triển khai Authentication & Authorization với nhiều ngôn ngữ khác nhau của chiến lược mà mình đưa ra, với sự hỗ trợ từ AWS SDK. Thế nên, để có thể thực hành được bài này thì các bạn nên biết cơ bản về lập trình, cấu hình mã nguồn cũng như là thao tác với CLI.
 
 > Note: các bạn có thể thoải mái dùng cấu trúc & kiến trúc mã nguồn, ứng dụng trong bài này để triển khai thành dự án của riêng các bạn.
 
@@ -37,7 +37,6 @@ Tuy là các ngôn ngữ khác nhau, môi trường phát triển khác nhau, nh
 │   │   │   └── pcustomer-management/
 │   │   └── adapters/
 │   ├── runtimes/
-│   │   ├── springboot/
 │   │   ├── fastapi/
 │   │   ├── express/
 │   │   └── lambda_functions/
@@ -61,7 +60,7 @@ Giải thích:
 - `test`: nếu như muốn test một hàm, một module hoặc tích hợp nhiều hàm và nhiều modules, thì chúng ta sẽ viết các kịch bản, cases ở trong này. Đơn giản chỉ có thể thôi !!
 - Ngoài ra thì mỗi mã nguồn dự án sẽ có nhiều file cấu hình riêng biệt.
 
-> Note: với các file mà được đặt tên theo PascalCase thì có nghĩa file đó chứa lớp đối tượng. Với Typescript và Python thì mình sẽ kết hợp OOP và Functional nhưng với Java thì buộc mình phải viết thuần OOP.
+> Note: với các file mà được đặt tên theo PascalCase thì có nghĩa file đó chứa lớp đối tượng.
 
 Mỗi một thành phần sẽ có các cách tiếp cận, tư duy xây dựng mã khác nhau, nhưng sau cùng thì chúng ta sẽ hướng về một mục tiêu duy nhất: triển khai thành công Authentication & Authorization trên ứng dụng mẫu với Cognito.
 
@@ -69,4 +68,4 @@ Mỗi một thành phần sẽ có các cách tiếp cận, tư duy xây dựng 
 
 ## Conclusion
 
-Trong mỗi thư mục `typescript`, `python` và `java` thì các bạn sẽ được giới thiệu qua thêm về mã nguồn ở trong đó cũng như là cách setup cơ bản. Nếu như cần chi tiết thì hãy coi qua bài workshop. 
+Trong mỗi thư mục `typescript` và `python`thì các bạn sẽ được giới thiệu qua thêm về mã nguồn ở trong đó cũng như là cách setup cơ bản. Nếu như cần chi tiết thì hãy coi qua bài workshop. 
