@@ -37,6 +37,6 @@ def create_roles_check_step_executor(
                     "desc": f"Role of user is not allowed: {user.get('role')}",
                 }
             )
-            return ctx.send_json(err)
+            return ctx.send_error(err)
 
     return step_executor

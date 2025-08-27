@@ -25,6 +25,7 @@ from utils.constants.app import APP_CONSTANTS
 
 # Import routes
 from runtimes.fastapi.routes.auth.main import router as auth_router
+from runtimes.fastapi.routes.pcustomer_management.main import router as pcustomer_router
 
 app = FastAPI()
 app.openapi = lambda: create_custom_openapi_schema(app)
@@ -48,6 +49,7 @@ def handle_root():
 
 
 app.include_router(auth_router)
+app.include_router(pcustomer_router)
 
 
 if __name__ == "__main__":

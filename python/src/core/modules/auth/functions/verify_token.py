@@ -42,7 +42,7 @@ def verify_token(ctx):
         in_ctx.params["headers"] = ctx.get_headers()
         in_ctx.options["can_catch_error"] = True
 
-        token = get_authorization_token(ctx)
+        token = get_authorization_token(in_ctx)
 
         keys = get_public_keys()
 
@@ -80,7 +80,7 @@ def verify_token(ctx):
         )
 
         # Post check claims
-        if int(time.time()) > claims.exp:
+        if int(time.time()) > claims.get("exp"):
             err = AppError("Token is invalid")
             err.add_error_detail({"source": "verify_token", "desc": "Token is expired"})
             err.as_http_error("Unauthorized")
@@ -124,9 +124,9 @@ def create_verify_token_step_executor(pipeline):
 
         if is_standard_error(result):
             # Stop pipeline
-            pipeline.stop()
+            pipeline.stop(ctx)
 
-            return ctx.sendError(result)
+            return ctx.send_error(result)
 
         ctx.add_temp_data("claims", result)
 

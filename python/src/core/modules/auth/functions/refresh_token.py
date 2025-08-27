@@ -8,7 +8,7 @@ from utils.aws_clients.main import get_cognito_idp_client
 from utils.configs import Configs
 
 
-def refresh_tokens(ctx):
+async def refresh_tokens(ctx):
     """
     Cho phép người dùng có thể làm mới lại các tokens.
 
@@ -18,7 +18,7 @@ def refresh_tokens(ctx):
         dict: chứa tokens hoặc AppError
     """
     try:
-        body = ctx.get_body()
+        body = await ctx.get_body()
         refresh_token = body.get("refreshToken")
 
         client = get_cognito_idp_client()

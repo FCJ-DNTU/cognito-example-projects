@@ -37,6 +37,6 @@ def create_teams_check_step_executor(
                     "desc": f"Team of user is not allowed: {user.get('team')}",
                 }
             )
-            return ctx.send_json(err)
+            return ctx.send_error(err)
 
     return step_executor

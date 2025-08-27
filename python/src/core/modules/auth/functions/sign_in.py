@@ -21,10 +21,6 @@ async def sign_in(ctx):
         username = body.get("username")
         password = body.get("password")
 
-        print("Body:", body)
-        print("Path Params:", ctx.get_params())
-        print("Query:", ctx.get_query())
-
         client = get_cognito_idp_client()
 
         response = client.initiate_auth(

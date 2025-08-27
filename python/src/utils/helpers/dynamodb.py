@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Callable
 
 # Import external packages
 from boto3.dynamodb.types import TypeDeserializer, TypeSerializer
@@ -27,7 +27,7 @@ def replace_decimals(obj: Any) -> Any:
         return [replace_decimals(item) for item in obj]
     elif isinstance(obj, dict):
         return {key: replace_decimals(value) for key, value in obj.items()}
-    elif hasattr(obj, "to_integral_value"):  # Decimal-like
+    elif hasattr(obj, "to_integral_value"):
         num = float(obj)
         return int(num) if num.is_integer() else num
     return obj
@@ -82,7 +82,7 @@ def from_dynamodb_item(dynamo_item: Dict[str, Any]) -> Dict[str, Any]:
 def _build_expression_attr_values(
     obj: Optional[Dict[str, Any]] = None,
     allowed_attrs: Optional[list[str]] = None,
-    fn: Optional[callable] = None,
+    fn: Optional[Callable] = None,
 ) -> Dict[str, Any]:
     """
     Xây dựng ExpressionAttributeValues từ dict đầu vào.
@@ -139,7 +139,7 @@ def _build_expression_attr_values(
 def build_set_update_expression(
     obj: Optional[Dict[str, Any]] = None,
     allowed_attrs: Optional[list[str]] = None,
-) -> Optional[Dict[str, Any]]:
+) -> Dict[str, Any]:
     """
     Tạo biểu thức SET cho DynamoDB update.
 
@@ -151,7 +151,7 @@ def build_set_update_expression(
         Dict chứa setExpression và expressionAttrValues, hoặc None nếu không có dữ liệu.
     """
     if not obj:
-        return None
+        return {}
 
     set_parts = []
 
@@ -164,6 +164,6 @@ def build_set_update_expression(
     set_expression = "SET " + ", ".join(set_parts)
 
     return {
-        "setExpression": set_expression,
-        "expressionAttrValues": expression_attr_values,
+        "set_expression": set_expression,
+        "expression_attr_values": expression_attr_values,
     }
