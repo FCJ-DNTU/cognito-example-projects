@@ -17,12 +17,12 @@ import { createVerifyTokenStepExecutor } from "../../auth/functions/verify-token
 import { createTeamsCheckStepExecutor } from "../../auth/functions/check-teams";
 import { createRolesCheckStepExecutor } from "../../auth/functions/check-role";
 
-// Import validation / validators
+// Import validation & schema
 import { createValidationStepExecutor } from "../../../validation/joi/helper";
 import {
-  createPCustomerValidator,
-  updatePCustomerValidator,
-} from "../validator";
+  createPCustomerSchema,
+  updatePCustomerSchema,
+} from "../data-model/schema";
 
 // Import types
 import type { RuntimeContext } from "../../../context/runtime-context";
@@ -92,7 +92,7 @@ getCustomersPipeline
 addCustomerPipeline
   .addStep(createVerifyTokenStepExecutor(addCustomerPipeline))
   .addStep(
-    createValidationStepExecutor(addCustomerPipeline, createPCustomerValidator),
+    createValidationStepExecutor(addCustomerPipeline, createPCustomerSchema),
   )
   .addStep(
     createRolesCheckStepExecutor(addCustomerPipeline, [
@@ -124,10 +124,7 @@ updateCustomerPipeline
     createTeamsCheckStepExecutor(updateCustomerPipeline, [TEAMS.SALES.NAME]),
   )
   .addStep(
-    createValidationStepExecutor(
-      updateCustomerPipeline,
-      updatePCustomerValidator,
-    ),
+    createValidationStepExecutor(updateCustomerPipeline, updatePCustomerSchema),
   )
   .addStep(updateCustomer)
   .addStep<void>((ctx) => {
