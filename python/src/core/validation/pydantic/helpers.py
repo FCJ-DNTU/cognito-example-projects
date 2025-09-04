@@ -31,8 +31,6 @@ def create_validation_step_executor(
             err = ClientError("Validation failed")
             err.as_http_error("BadRequest")
 
-            print("Errors:", e.errors())
-
             for detail in e.errors():
                 err.add_error_detail(
                     {

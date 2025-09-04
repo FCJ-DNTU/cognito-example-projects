@@ -1,11 +1,12 @@
 from pydantic import BaseModel, Field
 
+# Import constants
+from utils.constants import USERNAME_PATTERN, PASSWORD_PATTERN
+
 
 class SignInDataSchema(BaseModel):
-    username: str = Field(..., min_length=3, max_length=50, pattern=r"^[a-zA-Z0-9]+$")
-    password: str = Field(
-        ..., min_length=8, max_length=128, pattern=r"^[a-zA-Z0-9!@#$%^&*()_+=-]+$"
-    )
+    username: str = Field(..., min_length=3, max_length=50, pattern=USERNAME_PATTERN)
+    password: str = Field(..., min_length=8, max_length=128, pattern=PASSWORD_PATTERN)
 
 
 class RefreshTokensDataSchema(BaseModel):

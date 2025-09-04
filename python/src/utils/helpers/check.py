@@ -25,9 +25,9 @@ def check_empty_or_throw_error(value: Any, value_name: str, msg: str | None = No
         raise AppError(msg)
 
 
-def check_undefined_or_throw_error(value: Any, value_name: str, msg: str | None = None):
+def check_none_or_throw_error(value: Any, value_name: str, msg: str | None = None):
     """
-    Kiểm tra và có thể ném lỗi nếu như giá trị là undefined.
+    Kiểm tra và có thể ném lỗi nếu như giá trị là none.
 
     Args:
         value: giá trị cần kiểm tra.
@@ -44,25 +44,6 @@ def check_undefined_or_throw_error(value: Any, value_name: str, msg: str | None 
         raise AppError(msg)
 
 
-def check_null_or_throw_error(value: Any, value_name: str, msg: str | None = None):
-    """
-    Kiểm tra và có thể ném lỗi nếu như giá trị là null.
-
-    Args:
-        value: giá trị cần kiểm tra.
-        value_name: tên của giá trị.
-        msg: thông báo lỗi tuỳ chỉnh.
-
-    Returns:
-        None
-    """
-    if not msg:
-        msg = f"{value_name} is undefined"
-
-    if value is None:
-        raise AppError(msg)
-
-
 def check_existance_or_throw_error(value: Any, value_name: str, msg: str | None = None):
     """
     Kiểm tra và có thể ném lỗi nếu như giá trị không tồn tại.
@@ -75,8 +56,7 @@ def check_existance_or_throw_error(value: Any, value_name: str, msg: str | None 
     Returns:
         None
     """
-    check_undefined_or_throw_error(value, value_name, msg)
-    check_null_or_throw_error(value, value_name, msg)
+    check_none_or_throw_error(value, value_name, msg)
 
 
 def check_prop_in_obj_or_throw_error(

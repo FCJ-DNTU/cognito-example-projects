@@ -6,7 +6,7 @@ from core.error import is_standard_error
 # Import functions
 from core.modules.auth.functions import (
     sign_in,
-    refresh_token,
+    refresh_tokens,
 )
 
 # Import schema & validators
@@ -31,7 +31,7 @@ sign_in_pipeline.add_step(
 
 refresh_tokens_pipeline.add_step(
     create_validation_step_executor(refresh_tokens_pipeline, RefreshTokensDataSchema)
-).add_step(refresh_token.refresh_tokens).add_step(
+).add_step(refresh_tokens).add_step(
     lambda ctx: (
         ctx.send_error(ctx.prev_result)
         if is_standard_error(ctx.prev_result)

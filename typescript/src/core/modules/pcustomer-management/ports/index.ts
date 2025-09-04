@@ -1,8 +1,7 @@
 import { Pipeline } from "../../../context/pipeline";
 
 // Import constants
-import { ROLES } from "../../auth/constants";
-import { TEAMS } from "../../auth/constants";
+import { ROLES, TEAMS } from "../../auth/constants";
 
 // Import errors
 import { ClientError, isStandardError } from "../../../error";
@@ -15,7 +14,7 @@ import { updateCustomer } from "../functions/update-customer";
 import { deleteCustomer } from "../functions/delete-customer";
 import { createVerifyTokenStepExecutor } from "../../auth/functions/verify-token";
 import { createTeamsCheckStepExecutor } from "../../auth/functions/check-teams";
-import { createRolesCheckStepExecutor } from "../../auth/functions/check-role";
+import { createRolesCheckStepExecutor } from "../../auth/functions/check-roles";
 
 // Import validation & schema
 import { createValidationStepExecutor } from "../../../validation/joi/helper";
