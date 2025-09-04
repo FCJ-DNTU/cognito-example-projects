@@ -20,11 +20,7 @@ VIETNAMESE_PHONENUMBER_REGEX = re.compile(VIETNAMESE_PHONENUMBER_PATTERN)
 USERNAME_PATTERN = r"^[a-zA-Z0-9._-]{3,30}$"
 USERNAME_REGEX = re.compile(USERNAME_PATTERN)
 
-PASSWORD_PATTERN = (
-    r"^(?!\s+)(?!.*\s+$)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])"
-    r"(?=.*[$^*.[\]{}()?\"!@#%&/\\,><':;|_~`=+\- ])"
-    r"[A-Za-z0-9$^*.[\]{}()?\"!@#%&/\\,><':;|_~`=+\- ]{8,256}$"
-)
+PASSWORD_PATTERN = r"^[A-Za-z0-9!@#$%^&*()\[\]{}:;.,<>?/\\|_~`+=\-]{8,128}$"
 PASSWORD_REGEX = re.compile(PASSWORD_PATTERN)
 
 # Date Regex
