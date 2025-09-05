@@ -71,7 +71,9 @@ export const authRoutes: TRouteDefinition[] = [
     requestBody: {
       required: true,
       content: {
-        "application/json": refreshTokensDataDescriptiveObject,
+        "application/json": {
+          schema: refreshTokensDataDescriptiveObject,
+        },
       },
     },
     responses: {

@@ -72,9 +72,7 @@ add_customer_pipeline.add_step(
         add_customer_pipeline, [ROLES["EMPLOYEE"]["NAME"], ROLES["ADMIN"]["NAME"]]
     )
 ).add_step(
-    create_teams_check_step_executor(
-        add_customer_pipeline, [TEAMS["MARKETING"]["NAME"], TEAMS["SALES"]["NAME"]]
-    )
+    create_teams_check_step_executor(add_customer_pipeline, [TEAMS["SALES"]["NAME"]])
 ).add_step(
     add_customer
 ).add_step(
@@ -92,9 +90,7 @@ update_customer_pipeline.add_step(
         update_customer_pipeline, [ROLES["EMPLOYEE"]["NAME"], ROLES["ADMIN"]["NAME"]]
     )
 ).add_step(
-    create_teams_check_step_executor(
-        update_customer_pipeline, [TEAMS["MARKETING"]["NAME"], TEAMS["SALES"]["NAME"]]
-    )
+    create_teams_check_step_executor(update_customer_pipeline, [TEAMS["SALES"]["NAME"]])
 ).add_step(
     update_customer
 ).add_step(
@@ -112,9 +108,7 @@ delete_customer_pipeline.add_step(
         delete_customer_pipeline, [ROLES["EMPLOYEE"]["NAME"], ROLES["ADMIN"]["NAME"]]
     )
 ).add_step(
-    create_teams_check_step_executor(
-        delete_customer_pipeline, [TEAMS["MARKETING"]["NAME"], TEAMS["SALES"]["NAME"]]
-    )
+    create_teams_check_step_executor(delete_customer_pipeline, [TEAMS["SALES"]["NAME"]])
 ).add_step(
     delete_customer
 ).add_step(
