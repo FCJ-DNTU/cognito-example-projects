@@ -3,6 +3,7 @@ from fastapi.openapi.utils import get_openapi
 
 # Import constant
 from utils.constants.app import APP_CONSTANTS
+from utils.configs import Configs
 
 app_info = {
     "title": "Cognito Example Application with Python",
@@ -48,7 +49,7 @@ def create_custom_openapi_schema(app: FastAPI):
     # Thêm servers (tương đương servers)
     openapi_schema["servers"] = [
         {
-            "url": f"http://{APP_CONSTANTS.get("HOST")}:{APP_CONSTANTS.get("PORT")}",
+            "url": f"http://{Configs.Swagger_Server_Config_Host}:{APP_CONSTANTS.get("PORT")}",
             "description": "Development server",
         }
     ]

@@ -4,6 +4,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 
 // Import constants
 import { APP_CONSTANTS } from "../../../utils/constants";
+import { Configs } from "../../../utils/configs";
 
 const options = {
   definition: {
@@ -30,7 +31,7 @@ const options = {
     ],
     servers: [
       {
-        url: `http://${APP_CONSTANTS.HOST}:${APP_CONSTANTS.PORT}`,
+        url: `http://${Configs.SwaggerServerConfigHost}:${APP_CONSTANTS.PORT}`,
       },
     ],
   },
